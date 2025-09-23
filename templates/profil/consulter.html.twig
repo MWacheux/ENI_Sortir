@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ participant.prenom }} {{ participant.nom }}{% endblock %}
+
+{% block body %}
+    <b>Nom : </b>
+    {{ participant.nom }}
+    <br>
+
+    <b>Prénom : </b>
+    {{ participant.prenom }}
+    <br>
+
+    <b>Email : </b>
+    {{ participant.email }}
+    <br>
+
+    <b>Téléphone : </b>
+    {{ participant.telephone }}
+    <br>
+
+    <b>Site de rattachement : </b>
+    {{ participant.site }}
+{% endblock %}
