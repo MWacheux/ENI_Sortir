@@ -4,6 +4,16 @@
 
 {% block body %}
     {{ form_start(form) }}
-    <button type="submit">Enregistrer</button>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.nom) }}
+            {{ form_row(form.prenom) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.telephone) }}
+            {{ form_row(form.email) }}
+        </div>
+    </div>
+    <button type="submit" class="btn btn-lg btn-primary">Enregistrer</button>
     {{ form_end(form) }}
 {% endblock %}
