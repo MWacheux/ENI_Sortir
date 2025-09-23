@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Site{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    <div class="card">
+        <h5 class="card-header">{{ form.vars.data.id ? 'Modifier' : 'Ajouter' }} un site</h5>
+        <div class="card-body">
+            {{ form_row(form.nom) }}
+            <button type="submit" class="btn btn-success mt-3">Ajouter</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}
+

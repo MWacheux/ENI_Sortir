@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Site{% endblock %}
+
+{% block titre %}Lister les sites{% endblock %}
+
+{% block body %}
+    <a href="{{ path('app_site_ajouter') }}" class="btn btn-success">Ajouter un site</a>
+    <div class="row mt-3">
+        {% for site in sites %}
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ site.nom }}</h5>
+                        <p class="card-text"></p>
+                        <a href="{{ path('app_site_modifier', {'site' : site.id}) }}" class="btn btn-warning">Modifier</a>
+                        <a href="{{ path('app_site_supprimer', {'site' : site.id}) }}" class="btn btn-danger">Supprimer</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
