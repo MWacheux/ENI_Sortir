@@ -1,6 +1,7 @@
-{% extends 'base.html.twig' %}
+{% extends 'empty_base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Se connecter{% endblock %}
+{% block titre %}Se connecter{% endblock %}
 
 {% block body %}
     <form method="post">
@@ -14,24 +15,20 @@
             </div>
         {% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="username">Email</label>
-        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+        <label for="username" class="form-label">Email</label>
+        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control mb-3" autocomplete="email" required autofocus>
+        <label for="password" class="form-label">Mot de passe</label>
+        <input type="password" name="_password" id="password" class="form-control mb-3" autocomplete="current-password" required>
         <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
+        <div class="mb-3">
+            <input type="checkbox" id="remember" name="_remember_me" class="form-check-input" checked>
+            <label for="remember">Rester connecté</label>
+        </div>
 
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
+        <button class="btn btn-primary" type="submit">
+            Se connecter
         </button>
     </form>
-
-
-
-        <label>
-            <input type="checkbox" name="_remember_me" checked>
-            Remember me
-        </label>
 
 {% endblock %}
