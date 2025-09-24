@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Repository\RepositoryFactory;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie

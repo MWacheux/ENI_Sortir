@@ -1,0 +1,38 @@
+framework:
+    workflows:
+        sortie:
+            type: 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                service: App\Services\EtatMarkingStoreService
+            supports:
+                - App\Entity\Sortie
+            initial_marking: creee
+            places:
+                - creee
+                - ouverte
+                - cloturee
+                - activite_en_cours
+                - passee
+                - annulee
+                - archivee
+            transitions:
+                to_ouverte:
+                    from: creee
+                    to:   ouverte
+                to_annulee:
+                    from: ouverte
+                    to:   annulee
+                to_cloturee:
+                    from: ouverte
+                    to:   cloturee
+                to_passee:
+                    from: activite_en_cours
+                    to: passee
+                to_activitee_en_cours:
+                    from: cloturee
+                    to: activite_en_cours
+                to_archivee:
+                    from: [passee, annulee]
+                    to: archivee
