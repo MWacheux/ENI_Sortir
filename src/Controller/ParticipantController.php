@@ -17,9 +17,15 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/participant')]
 final class ParticipantController extends AbstractController
 {
+    public function __construct(
+        private readonly ParticipantRepository $participantRepository,
+        private readonly EntityManagerInterface $em,
+    )
+    {
+    }
 
     #[Route('/profil')]
-    public function monProfil(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function monProfil(Request $request, SluggerInterface $slugger): Response
     {
         $participant = $this->getUser();
         $baseUrl = $request->getSchemeAndHttpHost();
@@ -49,8 +55,8 @@ final class ParticipantController extends AbstractController
 
             $participant->setPhoto($newFilename);
 
-            $entityManager->persist($participant);
-            $entityManager->flush();
+            $this->em->persist($participant);
+            $this->em->flush();
             $this->addFlash("success", "Modifications prises en compte");
             return $this->redirectToRoute('app_participant_monprofil');
         }
@@ -63,10 +69,10 @@ final class ParticipantController extends AbstractController
 
 
     #[Route('/consulter/{id}')]
-    public function consulter(Request $request, ParticipantRepository $participantRepository, int $id): Response
+    public function consulter(Request $request, int $id): Response
     {
         /** @var Participant $participant */
-        $participant = $participantRepository->find($id);
+        $participant = $this->participantRepository->find($id);
         $baseUrl = $request->getSchemeAndHttpHost();
 
         return $this->render('profil/consulter.html.twig', [
@@ -75,11 +81,34 @@ final class ParticipantController extends AbstractController
         ]);
     }
 
+
+
+    #[Route('/ajouter')]
+    #[IsGranted("ROLE_ADMIN", message: 'Vous n\'avez pas les permissions')]
+    public function ajouter(Request $request): Response
+    {
+        $participant = new Participant();
+        $form = $this->createForm(ProfilType::class, $participant);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $participant->setPassword('$2y$13$J/3BoAyb0/O3nGBrf04U6.1vMfrjsl/2Wc0xaAJ9YpS2xNxpKucx2'); // mdp hashé : azerty
+            $this->em->persist($participant);
+            $this->em->flush();
+            $this->addFlash('success', 'L\'utilisateur "'.$participant->getPrenom().' '.$participant->getNom().'" a bien été enregistré');
+            return $this->redirectToRoute('app_participant_lister');
+        }
+
+        return $this->render('utilisateur/ajouter.html.twig', [
+            'form' => $form
+        ]);
+    }
+
     #[Route('/')]
     #[IsGranted("ROLE_ADMIN", message: 'Vous n\'avez pas les permissions')]
-    public function lister(ParticipantRepository $participantRepository): Response
+    public function lister(): Response
     {
-        $utilisateurs = $participantRepository->findAll();
+        $utilisateurs = $this->participantRepository->findAll();
 
         return $this->render('utilisateur/lister.html.twig', [
             'utilisateurs' => $utilisateurs,
@@ -88,11 +117,11 @@ final class ParticipantController extends AbstractController
 
     #[Route('/desactiver/{utilisateur}')]
     #[IsGranted("ROLE_ADMIN", message: 'Vous n\'avez pas les permissions')]
-    public function desactiver(Participant $utilisateur, EntityManagerInterface $em): Response
+    public function desactiver(Participant $utilisateur): Response
     {
         $utilisateur->setActif(false);
-        $em->persist($utilisateur);
-        $em->flush();
+        $this->em->persist($utilisateur);
+        $this->em->flush();
         $this->addFlash('success', 'L\'utilisateur "'.$utilisateur->getNom().'" a bien été désactivé');
 
         return $this->redirectToRoute('app_participant_lister');
@@ -100,11 +129,11 @@ final class ParticipantController extends AbstractController
 
     #[Route('/activer/{utilisateur}')]
     #[IsGranted("ROLE_ADMIN", message: 'Vous n\'avez pas les permissions')]
-    public function activer(Participant $utilisateur, EntityManagerInterface $em): Response
+    public function activer(Participant $utilisateur): Response
     {
         $utilisateur->setActif(true);
-        $em->persist($utilisateur);
-        $em->flush();
+        $this->em->persist($utilisateur);
+        $this->em->flush();
         $this->addFlash('success', 'L\'utilisateur "'.$utilisateur->getNom().'" a bien été activé');
 
         return $this->redirectToRoute('app_participant_lister');
