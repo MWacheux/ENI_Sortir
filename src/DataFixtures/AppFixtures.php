@@ -21,6 +21,15 @@ class AppFixtures extends Fixture
             ->setPassword('$2y$13$jEijnLRVHCo6TltxxzEal.1QGpilma0yZPbiDjbfrqxwWXERIp.Du')
             ->setRoles(['ROLE_ADMIN'])
             ->setTelephone('0123456789');
+        // Creation d'un user classique
+        $participant = new Participant();
+        $participant->setNom('User')
+            ->setPrenom('User')
+            ->setActif(true)
+            ->setEmail('user@test.fr')
+            ->setPassword('$2y$13$bmvOngqCVyJ5B7CeduZzH.lzOHxFn79NZaLd3SXa.0psSQDytKMLW')
+            ->setRoles(['ROLE_USER'])
+            ->setTelephone('0123456789');
         $manager->persist($participant);
         // creation des etats possible
         $etat = new Etat();
