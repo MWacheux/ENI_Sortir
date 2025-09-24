@@ -46,13 +46,6 @@ final class ProfilController extends AbstractController
 
             $participant->setPhoto($newFilename);
 
-            /*
-             *             $participant.getPhoto() ? new File($this->getUploadRootDir() . '/' . $this->documentPath) : null;
-
-            $file = $form['photo']->getData();
-            $file->move(__DIR__."../../public/photo", $participant->getNom().$participant->getPrenom());
-*/
-
             $entityManager->persist($participant);
             $entityManager->flush();
             $this->addFlash("success", "Modifications prises en compte");
