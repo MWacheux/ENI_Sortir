@@ -13,6 +13,8 @@
             {{ form_row(form.telephone) }}
             {{ form_row(form.email) }}
         </div>
+        {{ form_row(form.photo) }}
+        <img src="{{ photo }}" class="w-25 rounded" alt="ma photo">
     </div>
     <button type="submit" class="btn btn-lg btn-primary mt-3">Enregistrer</button>
     {{ form_end(form) }}
