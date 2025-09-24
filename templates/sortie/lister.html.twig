@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sortie{% endblock %}
+
+{% block titre %}Lister les sorties{% endblock %}
+
+{% block body %}
+
+<main>
+    <a href="{{ path('app_sortie_ajouter') }}" class="btn btn-success">Ajouter une sortie</a>
+    <div class="row mt-3">
+        {% for sortie in sorties %}
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body p-3">
+                        <div class="card-title m-0 d-flex justify-content-between">
+                            <h5>{{ sortie.nom }}</h5>
+                            <p class="d-flex justify-content-between align-items-center">
+                                <span class="bg-{{ color_etat(sortie.etat) }} w-px-10 h-px-10 d-block rounded-4 me-2"></span>
+                                {{ sortie.etat.libelle|capitalize }}
+                            </p>
+                        </div>
+                        <p class="card-text text-muted">{{ sortie.dateHeureDebut|date('d/m/Y H:s') }} - {{ sortie.organisateur.prenom|capitalize }} {{ sortie.organisateur.nom|upper }}</p>
+                        <p class="card-text">
+                            {{ sortie.infosSortie }}
+                        </p>
+                        <a href="" class="btn btn-outline-primary">S'inscrire</a>
+                    </div>
+                    <div class="card-footer bg-{{ color_etat(sortie.etat) }} text-white fw-bold d-flex justify-content-between align-items-center flex-sm-wrap p-3">
+                       <p class="px-2 p-0 m-0">Inscrits : {{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</p>
+                       <p class="px-2 p-0 m-0">Date de clôture : {{ sortie.dateLimiteInscription|date('d/m/Y') }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</main>
+
+{% endblock %}
