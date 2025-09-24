@@ -32,8 +32,8 @@ class SortieType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('dateLimiteInscription', DateType::class,[
-                'label' => 'Date limite de l inscription',
+            ->add('dateLimiteInscription', DateTimeType::class,[
+                'label' => 'Date limite pour s\'inscription',
                 'attr' => [
                 'class' => 'form-control',
                 ],

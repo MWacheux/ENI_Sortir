@@ -17,7 +17,12 @@ use Symfony\Component\Routing\Attribute\Route;
 final class SortieController extends AbstractController
 {
 
-    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly SortieRepository $sortieRepository, private readonly SiteRepository $siteRepository, private readonly EtatRepository $etatRepository)
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly SortieRepository $sortieRepository,
+        private readonly SiteRepository $siteRepository,
+        private readonly EtatRepository $etatRepository,
+    )
     {
     }
 
@@ -26,9 +31,11 @@ final class SortieController extends AbstractController
     {
         // récupère toutes les sorties
         $sorties = $this->sortieRepository->findAll();
+        $sites = $this->siteRepository->findAll();
         // return la vue
         return $this->render('sortie/lister.html.twig', [
             'sorties' => $sorties,
+            'sites' => $sites,
         ]);
     }
 

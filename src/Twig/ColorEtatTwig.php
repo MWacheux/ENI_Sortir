@@ -22,10 +22,10 @@ class ColorEtatTwig extends AbstractExtension
         return match ($etat->getLibelle()) {
             'ouverte' => 'success',
             'annulée' => 'danger',
-            'passée' => 'info',
+            'passée' => 'secondary',
             'activité en cours' => 'warning',
             'cloturée' => 'gray',
-            'archivée' => 'black',
+            'archivée' => 'dark',
             default => 'UNDEFINED_COLORETATTWIG',
         };
     }
