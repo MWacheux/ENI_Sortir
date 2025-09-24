@@ -3,23 +3,44 @@
 {% block title %}Sortie{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Créer une sortie</h1>
+    <div class="container mt-4">
+        <h1 class="mb-4">Créer une sortie</h1>
 
-</div>
+        {{ form_start(sortieform) }}
 
-    {{ form_start(sortieform) }}
-    {{ form_row(sortieform.nom) }}
-    {{ form_row(sortieform.dateHeureDebut) }}
-    {{ form_row(sortieform.dateLimiteInscription) }}
-    {{ form_row(sortieform.nbInscriptionsMax) }}
-    {{ form_row(sortieform.duree) }}
-    {{ form_row(sortieform.infosSortie) }}
-    {{ form_row(sortieform.lieu) }}
-    {{ form_end(sortieform) }}
+        <div class="mb-3">
+            {{ form_row(sortieform.nom) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_row(sortieform.dateHeureDebut) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_row(sortieform.dateLimiteInscription) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_row(sortieform.nbInscriptionsMax) }}
+        </div>
+
+        <div class="row mb-3">
+            {{ form_row(sortieform.duree) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_row(sortieform.lieu) }}
+        </div>
+
+        <div class="mb-3">
+            <div>
+               {{ form_row(sortieform.infosSortie) }}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+
+        {{ form_end(sortieform) }}
+    </div>
 {% endblock %}
