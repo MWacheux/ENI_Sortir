@@ -77,7 +77,11 @@
                                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                     <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                         <div class="avatar avatar-online ratio ratio-1x1">
-                                            <img src="{{ app.request.scheme }}://{{ app.request.server.get('HTTP_HOST') }}/photo/{{ app.user.photo }}" alt="ma photo de profil" class="rounded-circle" style="object-fit: cover;"/>
+                                            {% if app.user.photo is not null %}
+                                                <img src="{{ app.request.scheme }}://{{ app.request.server.get('HTTP_HOST') }}/photo/{{ app.user.photo }}" alt="ma photo de profil" class="rounded-circle" style="object-fit: cover;" />
+                                            {% else %}
+                                                <i class="bx bxs-user"></i>
+                                            {% endif %}
                                         </div>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
@@ -86,7 +90,11 @@
                                                 <div class="d-flex">
                                                     <div class="flex-shrink-0 me-3">
                                                         <div class="avatar avatar-online ratio ratio-1x1">
-                                                            <img src="{{ app.request.scheme }}://{{ app.request.server.get('HTTP_HOST') }}/photo/{{ app.user.photo }}" alt="ma photo de profil" class="rounded-circle" style="object-fit: cover;" />
+                                                            {% if app.user.photo is not null %}
+                                                                <img src="{{ app.request.scheme }}://{{ app.request.server.get('HTTP_HOST') }}/photo/{{ app.user.photo }}" alt="ma photo de profil" class="rounded-circle" style="object-fit: cover;" />
+                                                            {% else %}
+                                                                <i class="bx bxs-user"></i>
+                                                            {% endif %}
                                                         </div>
                                                     </div>
                                                     <div class="flex-grow-1">
