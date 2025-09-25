@@ -48,19 +48,21 @@
                                 <div>Sorties</div>
                             </a>
                         </li>
-                        <li class="menu-header small text-uppercase">
-                            <span class="menu-header-text">ADMIN</span>
-                        </li>
-                        <li class="menu-item">
-                            <a href="{{ path('app_site_lister') }}" class="menu-link">
-                                <i class="menu-icon tf-icons bx bx-building"></i>
-                                <div>Sites</div>
-                            </a>
-                            <a href="{{ path('app_participant_lister') }}" class="menu-link">
-                                <i class="menu-icon tf-icons bx bx-user"></i>
-                                <div>Utilisateurs</div>
-                            </a>
-                        </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="menu-header small text-uppercase">
+                                <span class="menu-header-text">ADMIN</span>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ path('app_site_lister') }}" class="menu-link">
+                                    <i class="menu-icon tf-icons bx bx-building"></i>
+                                    <div>Sites</div>
+                                </a>
+                                <a href="{{ path('app_participant_lister') }}" class="menu-link">
+                                    <i class="menu-icon tf-icons bx bx-user"></i>
+                                    <div>Utilisateurs</div>
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </aside>
                 <!-- / Menu -->

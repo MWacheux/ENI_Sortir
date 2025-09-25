@@ -24,7 +24,7 @@ class ColorEtatTwig extends AbstractExtension
             'annulée' => 'danger',
             'passée' => 'secondary',
             'activité en cours' => 'warning',
-            'cloturée' => 'gray',
+            'clôturée' => 'gray',
             'archivée' => 'dark',
             default => 'UNDEFINED_COLORETATTWIG',
         };

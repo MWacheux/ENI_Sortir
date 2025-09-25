@@ -3,8 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Participant;
 use App\Entity\Site;
+use App\Entity\Sortie;
+use App\Entity\Ville;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -13,62 +16,171 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         // Creation de l'admin
-        $participant = new Participant();
-        $participant->setNom('Admin')
+        $admin = new Participant();
+        $admin->setNom('ENI')
             ->setPrenom('Admin')
             ->setActif(true)
             ->setEmail('admin@test.fr')
-            ->setPassword('$2y$13$jEijnLRVHCo6TltxxzEal.1QGpilma0yZPbiDjbfrqxwWXERIp.Du')
+            ->setPassword('$2y$13$J/3BoAyb0/O3nGBrf04U6.1vMfrjsl/2Wc0xaAJ9YpS2xNxpKucx2')
             ->setRoles(['ROLE_ADMIN'])
             ->setTelephone('0123456789');
+        $manager->persist($admin);
         // Creation d'un user classique
-        $participant = new Participant();
-        $participant->setNom('User')
-            ->setPrenom('User')
+        $maiwenn = new Participant();
+        $maiwenn->setNom('WACHEUX')
+            ->setPrenom('Maïwenn')
             ->setActif(true)
-            ->setEmail('user@test.fr')
-            ->setPassword('$2y$13$bmvOngqCVyJ5B7CeduZzH.lzOHxFn79NZaLd3SXa.0psSQDytKMLW')
+            ->setEmail('mwacheux@test.fr')
+            ->setPassword('$2y$13$J/3BoAyb0/O3nGBrf04U6.1vMfrjsl/2Wc0xaAJ9YpS2xNxpKucx2')
             ->setRoles(['ROLE_USER'])
             ->setTelephone('0123456789');
-        $manager->persist($participant);
+        $manager->persist($maiwenn);
+        $noa = new Participant();
+        $noa->setNom('HERVIEU')
+            ->setPrenom('Noä')
+            ->setActif(true)
+            ->setEmail('nhervieu@test.fr')
+            ->setPassword('$2y$13$J/3BoAyb0/O3nGBrf04U6.1vMfrjsl/2Wc0xaAJ9YpS2xNxpKucx2')
+            ->setRoles(['ROLE_USER'])
+            ->setTelephone('0123456789');
+        $manager->persist($noa);
         // creation des etats possible
-        $etat = new Etat();
-        $etat->setLibelle('creee');
-        $manager->persist($etat);
-        $etat = new Etat();
-        $etat->setLibelle('ouverte');
-        $manager->persist($etat);
-        $etat = new Etat();
-        $etat->setLibelle('cloturee');
-        $manager->persist($etat);
-        $etat = new Etat();
-        $etat->setLibelle('activite_en_cours');
-        $manager->persist($etat);
-        $etat = new Etat();
-        $etat->setLibelle('passee');
-        $manager->persist($etat);
-        $etat = new Etat();
-        $etat->setLibelle('annulee');
-        $manager->persist($etat);
-        $etat = new Etat();
-        $etat->setLibelle('archivee');
-        $manager->persist($etat);
+        $creee = new Etat();
+        $creee->setLibelle('créée');
+        $manager->persist($creee);
+        $ouverte = new Etat();
+        $ouverte->setLibelle('ouverte');
+        $manager->persist($ouverte);
+        $cloturee = new Etat();
+        $cloturee->setLibelle('clôturée');
+        $manager->persist($cloturee);
+        $enCours = new Etat();
+        $enCours->setLibelle('activité en cours');
+        $manager->persist($enCours);
+        $passee = new Etat();
+        $passee->setLibelle('passée');
+        $manager->persist($passee);
+        $annulee = new Etat();
+        $annulee->setLibelle('annulée');
+        $manager->persist($annulee);
+        $archivee = new Etat();
+        $archivee->setLibelle('archivée');
+        $manager->persist($archivee);
         // creation des sites
-        $site = new Site();
-        $site->setNom('Nantes');
-        $manager->persist($site);
-        $site = new Site();
-        $site->setNom('Rennes');
-        $manager->persist($site);
-        $site = new Site();
-        $site->setNom('Niort');
-        $manager->persist($site);
-        $site = new Site();
-        $site->setNom('Quimper');
-        $manager->persist($site);
-        $site = new Site();
-        $site->setNom('En ligne');
-        $manager->persist($site);
+        $nantes = new Site();
+        $nantes->setNom('Nantes');
+        $manager->persist($nantes);
+        $rennes = new Site();
+        $rennes->setNom('Rennes');
+        $manager->persist($rennes);
+        $niort = new Site();
+        $niort->setNom('Niort');
+        $manager->persist($niort);
+        $quimper = new Site();
+        $quimper->setNom('Quimper');
+        $manager->persist($quimper);
+        $enLigne = new Site();
+        $enLigne->setNom('En ligne');
+        $manager->persist($enLigne);
+
+        // creation de ville
+        $brest = new Ville();
+        $brest->setNom('Brest');
+        $brest->setCodePostal('29200');
+        $manager->persist($brest);
+        $caen = new Ville();
+        $caen->setNom('Caen');
+        $caen->setCodePostal('14000');
+        $manager->persist($caen);
+        $percy = new Ville();
+        $percy->setNom('Percy');
+        $percy->setCodePostal('50410');
+        $manager->persist($percy);
+        $saintHerblain = new Ville();
+        $saintHerblain->setNom('Saint Herblain');
+        $saintHerblain->setCodePostal('44800');
+        $manager->persist($saintHerblain);
+
+        // creation des lieux
+        $escapeGame = (new Lieu())
+            ->setNom('LockQuest')
+            ->setRue('6 Chem. de Lamballard, 14760 Bretteville-sur-Odon')
+            ->setVille($caen)
+            ->setLatitude(0)
+            ->setLongitude(0);
+        $manager->persist($escapeGame);
+        $paintBall = (new Lieu())
+            ->setNom('L\'usine')
+            ->setRue('l\'épinière, 2 domaine de Sienne, 50410 Percy-en-Normandie')
+            ->setVille($percy)
+            ->setLatitude(0)
+            ->setLongitude(0);
+        $manager->persist($paintBall);
+        $cinema = (new Lieu())
+            ->setNom('Cinéma Pathé')
+            ->setRue('8 All. la Pérouse, 44800 Saint-Herblain')
+            ->setVille($saintHerblain)
+            ->setLatitude(0)
+            ->setLongitude(0);
+        $manager->persist($cinema);
+        $escalade = (new Lieu())
+            ->setNom('Vertical Art')
+            ->setRue('1 Rue d\'Athènes, 44300 Nantes')
+            ->setVille($saintHerblain)
+            ->setLatitude(0)
+            ->setLongitude(0);
+        $manager->persist($escalade);
+
+        // Creation des sorties
+        $now = new \DateTime();
+        $sortieOuverte = (new Sortie())
+            ->setNom("Escape game")
+            ->setLieu($escapeGame)
+            ->setEtat($ouverte)
+            ->setSite($nantes)
+            ->setInfosSortie('Sortie escape game à LockQuest, pour un niveau intermédiaire !')
+            ->setOrganisateur($admin)
+            ->setDateHeureDebut($now->add(new \DateInterval('P1D')))
+            ->setDateLimiteInscription($now->add(new \DateInterval('P1D'))->add(new \DateInterval('PT3H')))
+            ->setDuree(90)
+            ->setNbInscriptionsMax(4);
+        $manager->persist($sortieOuverte);
+        $sortieCloturee = (new Sortie())
+            ->setNom("Paintball")
+            ->setLieu($paintBall)
+            ->setEtat($cloturee)
+            ->setSite($rennes)
+            ->setInfosSortie('Sortie paintball urbex dans une ancienne usine')
+            ->setOrganisateur($admin)
+            ->setDateHeureDebut($now->add(new \DateInterval('P1D'))->add(new \DateInterval('PT1H')))
+            ->setDateLimiteInscription($now->sub(new \DateInterval('P1D')))
+            ->setDuree(240)
+            ->setNbInscriptionsMax(16);
+        $manager->persist($sortieCloturee);
+        $sortiePassee = (new Sortie())
+            ->setNom("Cinéma")
+            ->setLieu($cinema)
+            ->setEtat($passee)
+            ->setSite($nantes)
+            ->setInfosSortie('Sortie au cinéma pour voir le film "Une bataille après l\'autres"')
+            ->setOrganisateur($maiwenn)
+            ->setDateHeureDebut($now->sub(new \DateInterval('P1D')))
+            ->setDateLimiteInscription($now->sub(new \DateInterval('P1D'))->sub(new \DateInterval('PT2H')))
+            ->setDuree(140)
+            ->setNbInscriptionsMax(6);
+        $manager->persist($sortiePassee);
+        $sortieArchivee = (new Sortie())
+            ->setNom("Escalade")
+            ->setLieu($escalade)
+            ->setEtat($archivee)
+            ->setSite($niort)
+            ->setInfosSortie('Sortie escalade ouvert à tous, pour tout les niveaux')
+            ->setOrganisateur($maiwenn)
+            ->setDateHeureDebut($now->sub(new \DateInterval('P31D')))
+            ->setDateLimiteInscription($now->sub(new \DateInterval('P31D'))->sub(new \DateInterval('PT6H')))
+            ->setDuree(140)
+            ->setNbInscriptionsMax(6);
+        $manager->persist($sortieArchivee);
 
         $manager->flush();
     }
