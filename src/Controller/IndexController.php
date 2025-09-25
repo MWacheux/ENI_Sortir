@@ -11,7 +11,6 @@ final class IndexController extends AbstractController
     #[Route('/')]
     public function accueil(): Response
     {
-        return $this->render('index/accueil.html.twig', [
-        ]);
+        return $this->redirectToRoute('app_sortie_lister');
     }
 }
