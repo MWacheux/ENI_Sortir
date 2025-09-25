@@ -92,7 +92,6 @@ final class SortieController extends AbstractController
         // maj en base de données
         $this->entityManager->flush();
         return $this->redirectToRoute('app_sortie_lister');
-
     }
 
 }

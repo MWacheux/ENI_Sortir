@@ -24,8 +24,26 @@
                         <p class="card-text">
                             {{ sortie.infosSortie }}
                         </p>
+
+                        {# ✅ Bouton dynamique : inscrit → désinscrire / sinon → inscrire #}
+                        {% if sortie.participants.contains(app.user) %}
+                            <a href="{{ path('app_sortie_toggleinscription', {id: sortie.id}) }}"
+                               class="btn btn-outline-danger">
+                                Se désinscrire
+                            </a>
+                        {% else %}
+                            <a href="{{ path('app_sortie_toggleinscription', {id: sortie.id}) }}"
+                               class="btn btn-outline-primary">
+                                S'inscrire
+                            </a>
+                        {% endif %}
+
+
+                        {#
                         <a href="{{ path('app_sortie_toggleinscription', {id : sortie.id}) }}" class="btn btn-outline-primary">S'inscrire</a>
-                        <a href="{{ path('app_sortie_toggleinscription', {id : sortie.id}) }}" class="btn btn-outline-primary">Désincription</a>
+                       <a href="{{ path('app_sortie_toggleinscription', {id : sortie.id}) }}" class="btn btn-outline-primary">Désincription</a>
+                        #}
+
                     </div>
                     <div class="card-footer bg-{{ color_etat(sortie.etat) }} text-white fw-bold d-flex justify-content-between align-items-center flex-sm-wrap p-3">
                        <p class="px-2 p-0 m-0">Inscrits : {{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</p>
