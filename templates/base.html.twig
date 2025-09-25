@@ -47,6 +47,10 @@
                                 <i class="menu-icon tf-icons bx bx-building"></i>
                                 <div>Sites</div>
                             </a>
+                            <a href="{{ path('app_participant_lister') }}" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-user"></i>
+                                <div>Utilisateurs</div>
+                            </a>
                         </li>
                     </ul>
                 </aside>
@@ -80,7 +84,7 @@
                                             {% if app.user.photo is not null %}
                                                 <img src="{{ app.request.scheme }}://{{ app.request.server.get('HTTP_HOST') }}/photo/{{ app.user.photo }}" alt="ma photo de profil" class="rounded-circle" style="object-fit: cover;" />
                                             {% else %}
-                                                <i class="bx bxs-user"></i>
+                                                <i class="bx bxs-user d-flex justify-content-center align-items-center bg-dark rounded-4"></i>
                                             {% endif %}
                                         </div>
                                     </a>
@@ -93,7 +97,7 @@
                                                             {% if app.user.photo is not null %}
                                                                 <img src="{{ app.request.scheme }}://{{ app.request.server.get('HTTP_HOST') }}/photo/{{ app.user.photo }}" alt="ma photo de profil" class="rounded-circle" style="object-fit: cover;" />
                                                             {% else %}
-                                                                <i class="bx bxs-user"></i>
+                                                                <i class="bx bxs-user d-flex justify-content-center align-items-center bg-dark rounded-4"></i>
                                                             {% endif %}
                                                         </div>
                                                     </div>
@@ -113,7 +117,7 @@
                                             <div class="dropdown-divider"></div>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="#">
+                                            <a class="dropdown-item" href="{{ path("app_participant_monprofil") }}">
                                                 <i class="bx bx-user me-2"></i>
                                                 <span class="align-middle">Mon profil</span>
                                             </a>
