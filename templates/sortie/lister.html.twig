@@ -7,7 +7,30 @@
 {% block body %}
 
 <main>
-    <a href="{{ path('app_sortie_ajouter') }}" class="btn btn-success">Ajouter une sortie</a>
+    <div class="card">
+        {{ form_start(form) }}
+        <div class="card-body row">
+            <div class="col-md-4 align-content-center">
+                {{ form_row(form.dateDebut) }}
+                {{ form_row(form.dateFin) }}
+            </div>
+            <div class="col-md-4 align-content-center">
+                {{ form_row(form.site) }}
+                {{ form_row(form.nom) }}
+            </div>
+            <div class="col-md-4 align-content-center">
+                {{ form_row(form.isInscrit) }}
+                {{ form_row(form.isOrganisateur) }}
+                {{ form_row(form.isPassee) }}
+                <div class="row d-flex justify-content-between p-3">
+                    <button type="submit" class="btn btn-outline-dark col-md-5 my-1">Filtrer</button>
+                    <a href="{{ path('app_sortie_lister') }}" class="btn btn-outline-danger col-md-6 my-1">Réinitaliser</a>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+    <a href="{{ path('app_sortie_ajouter') }}" class="btn btn-success mt-3">Ajouter une sortie</a>
     <div class="row mt-3">
         {% for site in sites %}
             <div class="col-md-12 mb-3">

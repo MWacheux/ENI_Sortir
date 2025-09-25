@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Filtre\FiltreSortie;
 use App\Entity\Sortie;
+use App\Form\Filtre\FiltreSortieType;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use App\Repository\EtatRepository;
@@ -27,15 +29,34 @@ final class SortieController extends AbstractController
     }
 
     #[Route('/')]
-    public function lister(): Response
+    public function lister(Request $request): Response
     {
-        // récupère toutes les sorties
-        $sorties = $this->sortieRepository->findAll();
-        $sites = $this->siteRepository->findAll();
+        $filtre = new FiltreSortie();
+        // crée le fomulaire de filtre
+        $form = $this->createForm(FiltreSortieType::class, $filtre, ['method' => 'GET']);
+        $form->handleRequest($request);
+        // test si le formulaire est soumis ET valide
+        if ($form->isSubmitted() && $form->isValid()) {
+            // récupère toutes les sorties AVEC les fitlres
+            $sorties = $this->sortieRepository->getSorties($filtre, $this->getUser());
+            if ($filtre->site){
+                // récupère le site du filtre
+                $sites = $this->siteRepository->findBy(['id' => $filtre->site->getId()]);
+            }else{
+                // récupère tous les sites
+                $sites = $this->siteRepository->findAll();
+            }
+        }else{
+            // récupère toutes les sorties SANS filtre
+            $sorties = $this->sortieRepository->findAll();
+            // récupère tous les sites
+            $sites = $this->siteRepository->findAll();
+        }
         // return la vue
         return $this->render('sortie/lister.html.twig', [
             'sorties' => $sorties,
             'sites' => $sites,
+            'form' => $form,
         ]);
     }
 
