@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un utilisateur{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    <div class="card">
+        <h5 class="card-header">{{ form.vars.data.id ? 'Modifier' : 'Ajouter' }} un utilisateur</h5>
+        <div class="card-body">
+            {{ form_row(form.prenom) }}
+            {{ form_row(form.nom) }}
+            {{ form_row(form.telephone) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.photo) }}
+            <button type="submit" class="btn btn-success mt-3">Ajouter</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}
+

@@ -22,3 +22,6 @@ services:
     App\Services\EtatMarkingStoreService:
         autowire: true
         autoconfigure: true
+
+    App\Twig\ColorEtatTwig:
+        tags: ['twig.extension']

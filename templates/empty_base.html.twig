@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Sortir.com{% endblock %}</title>
+        <link rel="icon" href="{{ asset("assets_template/img/favicon/favicon.ico") }}">
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+    </head>
+    <body>
+    <!-- Content -->
+
+    <div class="container-xxl">
+        <div class="authentication-wrapper authentication-basic container-p-y">
+            <div class="authentication-inner">
+                <!-- Register -->
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Logo -->
+                        <div class="app-brand justify-content-center">
+                            <a href="index.html" class="app-brand-link gap-2">
+                                <span class="app-brand-text demo text-heading fw-bold">Sortir.com</span>
+                            </a>
+                        </div>
+                        <!-- /Logo -->
+                        <h4 class="mb-3">{% block titre %}{% endblock %}</h4>
+                        {% block body %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

@@ -3,12 +3,17 @@
 {% block title %}{{ participant.prenom }} {{ participant.nom }}{% endblock %}
 
 {% block body %}
-    <b>Nom : </b>
-    {{ participant.nom }}
+    {% if participant.photo is not null %}
+        <img src="{{ photo }}" class="w-25 me-5 rounded float-start" alt="photo de {{ participant.prenom }} {{ participant.nom }}">
+    {% else %}
+        <i class="bx bxs-user"></i>
+    {% endif %}
     <br>
 
-    <b>Prénom : </b>
+    <h4>
+    {{ participant.nom }}
     {{ participant.prenom }}
+    </h4>
     <br>
 
     <b>Email : </b>
