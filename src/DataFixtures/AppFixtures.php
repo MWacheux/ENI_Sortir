@@ -131,6 +131,13 @@ class AppFixtures extends Fixture
             ->setLatitude(0)
             ->setLongitude(0);
         $manager->persist($escalade);
+        $bowling = (new Lieu())
+            ->setNom('Bowling')
+            ->setRue('1 Rue d\'Athènes, 44300 Nantes')
+            ->setVille($saintHerblain)
+            ->setLatitude(0)
+            ->setLongitude(0);
+        $manager->persist($bowling);
 
         // Creation des sorties
         $sortieOuverte = (new Sortie())
@@ -140,6 +147,18 @@ class AppFixtures extends Fixture
             ->setSite($nantes)
             ->setInfosSortie('Sortie escape game à LockQuest, pour un niveau intermédiaire !')
             ->setOrganisateur($admin)
+            ->setDateHeureDebut((new \DateTime())->add(new \DateInterval('P1D')))
+            ->setDateLimiteInscription((new \DateTime())->add(new \DateInterval('P1D'))->sub(new \DateInterval('PT3H')))
+            ->setDuree(90)
+            ->setNbInscriptionsMax(4);
+        $manager->persist($sortieOuverte);
+        $sortieOuverte = (new Sortie())
+            ->setNom("Bowling")
+            ->setLieu($bowling)
+            ->setEtat($ouverte)
+            ->setSite($nantes)
+            ->setInfosSortie('Sortie au bowling venez nombreux !')
+            ->setOrganisateur($maiwenn)
             ->setDateHeureDebut((new \DateTime())->add(new \DateInterval('P1D')))
             ->setDateLimiteInscription((new \DateTime())->add(new \DateInterval('P1D'))->sub(new \DateInterval('PT3H')))
             ->setDuree(90)
