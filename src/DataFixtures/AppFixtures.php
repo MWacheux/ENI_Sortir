@@ -8,6 +8,7 @@ use App\Entity\Participant;
 use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use App\Enum\EtatEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -46,25 +47,25 @@ class AppFixtures extends Fixture
         $manager->persist($noa);
         // creation des etats possible
         $creee = new Etat();
-        $creee->setLibelle('créée');
+        $creee->setLibelle(EtatEnum::CREEE->value);
         $manager->persist($creee);
         $ouverte = new Etat();
-        $ouverte->setLibelle('ouverte');
+        $ouverte->setLibelle(EtatEnum::OUVERTE->value);
         $manager->persist($ouverte);
         $cloturee = new Etat();
-        $cloturee->setLibelle('clôturée');
+        $cloturee->setLibelle(EtatEnum::CLOTUREE->value);
         $manager->persist($cloturee);
         $enCours = new Etat();
-        $enCours->setLibelle('activité en cours');
+        $enCours->setLibelle(EtatEnum::ACTIVITE_EN_COURS->value);
         $manager->persist($enCours);
         $passee = new Etat();
-        $passee->setLibelle('passée');
+        $passee->setLibelle(EtatEnum::PASSEE->value);
         $manager->persist($passee);
         $annulee = new Etat();
-        $annulee->setLibelle('annulée');
+        $annulee->setLibelle(EtatEnum::ANNULEE->value);
         $manager->persist($annulee);
         $archivee = new Etat();
-        $archivee->setLibelle('archivée');
+        $archivee->setLibelle(EtatEnum::ARCHIVEE->value);
         $manager->persist($archivee);
         // creation des sites
         $nantes = new Site();
@@ -132,7 +133,6 @@ class AppFixtures extends Fixture
         $manager->persist($escalade);
 
         // Creation des sorties
-        $now = new \DateTime();
         $sortieOuverte = (new Sortie())
             ->setNom("Escape game")
             ->setLieu($escapeGame)
@@ -140,20 +140,20 @@ class AppFixtures extends Fixture
             ->setSite($nantes)
             ->setInfosSortie('Sortie escape game à LockQuest, pour un niveau intermédiaire !')
             ->setOrganisateur($admin)
-            ->setDateHeureDebut($now->add(new \DateInterval('P1D')))
-            ->setDateLimiteInscription($now->add(new \DateInterval('P1D'))->add(new \DateInterval('PT3H')))
+            ->setDateHeureDebut((new \DateTime())->add(new \DateInterval('P1D')))
+            ->setDateLimiteInscription((new \DateTime())->add(new \DateInterval('P1D'))->sub(new \DateInterval('PT3H')))
             ->setDuree(90)
             ->setNbInscriptionsMax(4);
         $manager->persist($sortieOuverte);
         $sortieCloturee = (new Sortie())
             ->setNom("Paintball")
             ->setLieu($paintBall)
-            ->setEtat($cloturee)
+            ->setEtat($ouverte)
             ->setSite($rennes)
             ->setInfosSortie('Sortie paintball urbex dans une ancienne usine')
             ->setOrganisateur($admin)
-            ->setDateHeureDebut($now->add(new \DateInterval('P1D'))->add(new \DateInterval('PT1H')))
-            ->setDateLimiteInscription($now->sub(new \DateInterval('P1D')))
+            ->setDateHeureDebut((new \DateTime())->add(new \DateInterval('P1D'))->add(new \DateInterval('PT1H')))
+            ->setDateLimiteInscription((new \DateTime())->sub(new \DateInterval('P1D')))
             ->setDuree(240)
             ->setNbInscriptionsMax(16);
         $manager->persist($sortieCloturee);
@@ -164,8 +164,8 @@ class AppFixtures extends Fixture
             ->setSite($nantes)
             ->setInfosSortie('Sortie au cinéma pour voir le film "Une bataille après l\'autres"')
             ->setOrganisateur($maiwenn)
-            ->setDateHeureDebut($now->sub(new \DateInterval('P1D')))
-            ->setDateLimiteInscription($now->sub(new \DateInterval('P1D'))->sub(new \DateInterval('PT2H')))
+            ->setDateHeureDebut((new \DateTime())->sub(new \DateInterval('P1D')))
+            ->setDateLimiteInscription((new \DateTime())->sub(new \DateInterval('P1D'))->sub(new \DateInterval('PT2H')))
             ->setDuree(140)
             ->setNbInscriptionsMax(6);
         $manager->persist($sortiePassee);
@@ -176,8 +176,8 @@ class AppFixtures extends Fixture
             ->setSite($niort)
             ->setInfosSortie('Sortie escalade ouvert à tous, pour tout les niveaux')
             ->setOrganisateur($maiwenn)
-            ->setDateHeureDebut($now->sub(new \DateInterval('P31D')))
-            ->setDateLimiteInscription($now->sub(new \DateInterval('P31D'))->sub(new \DateInterval('PT6H')))
+            ->setDateHeureDebut((new \DateTime())->sub(new \DateInterval('P31D')))
+            ->setDateLimiteInscription((new \DateTime())->sub(new \DateInterval('P31D'))->sub(new \DateInterval('PT6H')))
             ->setDuree(140)
             ->setNbInscriptionsMax(6);
         $manager->persist($sortieArchivee);

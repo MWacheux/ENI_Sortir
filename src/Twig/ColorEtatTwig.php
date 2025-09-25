@@ -4,6 +4,7 @@
 namespace App\Twig;
 
 use App\Entity\Etat;
+use App\Enum\EtatEnum;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -20,12 +21,12 @@ class ColorEtatTwig extends AbstractExtension
     public function colorEtatTwig(Etat $etat) :string
     {
         return match ($etat->getLibelle()) {
-            'ouverte' => 'success',
-            'annulée' => 'danger',
-            'passée' => 'secondary',
-            'activité en cours' => 'warning',
-            'clôturée' => 'gray',
-            'archivée' => 'dark',
+            EtatEnum::OUVERTE->value => 'success',
+            EtatEnum::ANNULEE->value => 'danger',
+            EtatEnum::PASSEE->value => 'secondary',
+            EtatEnum::ACTIVITE_EN_COURS->value => 'warning',
+            EtatEnum::CLOTUREE->value => 'gray',
+            EtatEnum::ARCHIVEE->value => 'dark',
             default => 'UNDEFINED_COLORETATTWIG',
         };
     }

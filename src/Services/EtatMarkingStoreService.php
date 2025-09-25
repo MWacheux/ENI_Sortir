@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enum\EtatEnum;
 use Symfony\Component\Workflow\Marking;
 use Symfony\Component\Workflow\MarkingStore\MarkingStoreInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,13 +20,12 @@ class EtatMarkingStoreService implements MarkingStoreInterface
         if (!$subject instanceof Sortie) {
             throw new \LogicException('Le subject doit être une instance de Sortie.');
         }
-
         $etat = $subject->getEtat();
         if (!$etat) {
             throw new \LogicException('Aucun état défini pour cette sortie.');
         }
 
-        return new Marking([$etat->getLibelle() => 1]);
+        return new Marking([EtatEnum::getNomWorkflow($etat->getLibelle()) => 1]);
     }
 
     public function setMarking(object $subject, Marking $marking, array $context = []): void
@@ -33,9 +33,7 @@ class EtatMarkingStoreService implements MarkingStoreInterface
         if (!$subject instanceof Sortie) {
             throw new \LogicException('Le subject doit être une instance de Sortie.');
         }
-
-        $place = array_key_first($marking->getPlaces());
-
+        $place = EtatEnum::getTrad(array_key_first($marking->getPlaces()));
         $etat = $this->em->getRepository(Etat::class)->findOneBy(['libelle' => $place]);
 
         if (!$etat) {
