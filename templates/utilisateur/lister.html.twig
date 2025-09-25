@@ -18,6 +18,7 @@
                         {% else %}
                             <a href="{{ path('app_participant_activer', {'utilisateur' : utilisateur.id}) }}" class="btn btn-success">Activer</a>
                         {% endif %}
+                        <a href="{{ path('app_participant_supprimer', {'utilisateur' : utilisateur.id}) }}" class="btn btn-danger">Supprimer</a>
                     </div>
                 </div>
             </div>

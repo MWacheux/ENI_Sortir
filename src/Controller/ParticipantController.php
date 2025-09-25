@@ -104,6 +104,21 @@ final class ParticipantController extends AbstractController
         ]);
     }
 
+    #[Route('/supprimer/{utilisateur}')]
+    #[IsGranted("ROLE_ADMIN", message: 'Vous n\'avez pas les permissions')]
+    public function supprimer(Participant $utilisateur): Response
+    {
+        if($utilisateur)
+        {
+            $this->em->remove($utilisateur);
+            $this->em->flush();
+            $this->addFlash('success', 'L\'utilisateur "'.$utilisateur->getPrenom().' '.$utilisateur->getNom().'" a bien été supprimé');
+            return $this->redirectToRoute('app_participant_lister');
+        }
+        $this->addFlash('error', 'L\'utilisateur "'.$utilisateur->getPrenom().' '.$utilisateur->getNom().'" n\'est pas trouvé');
+        return $this->redirectToRoute('app_participant_lister');
+    }
+
     #[Route('/')]
     #[IsGranted("ROLE_ADMIN", message: 'Vous n\'avez pas les permissions')]
     public function lister(): Response
@@ -122,7 +137,7 @@ final class ParticipantController extends AbstractController
         $utilisateur->setActif(false);
         $this->em->persist($utilisateur);
         $this->em->flush();
-        $this->addFlash('success', 'L\'utilisateur "'.$utilisateur->getNom().'" a bien été désactivé');
+        $this->addFlash('success', 'L\'utilisateur "'.$utilisateur->getPrenom().' '.$utilisateur->getNom().'" a bien été désactivé');
 
         return $this->redirectToRoute('app_participant_lister');
     }
@@ -134,7 +149,7 @@ final class ParticipantController extends AbstractController
         $utilisateur->setActif(true);
         $this->em->persist($utilisateur);
         $this->em->flush();
-        $this->addFlash('success', 'L\'utilisateur "'.$utilisateur->getNom().'" a bien été activé');
+        $this->addFlash('success', 'L\'utilisateur "'.$utilisateur->getPrenom().' '.$utilisateur->getNom().'" a bien été activé');
 
         return $this->redirectToRoute('app_participant_lister');
     }
