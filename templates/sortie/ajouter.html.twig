@@ -17,6 +17,7 @@
                 {{ form_row(sortieform.nbInscriptionsMax) }}
                 {{ form_row(sortieform.duree) }}
                 {{ form_row(sortieform.lieu) }}
+                <a href="{{ path('app_lieu_ajouter') }}" class="btn btn-dark mb-3">Ajouter un lieu</a>
                 {{ form_row(sortieform.infosSortie) }}
                 <button type="submit" class="btn btn-dark">Enregistrer</button>
             </div>

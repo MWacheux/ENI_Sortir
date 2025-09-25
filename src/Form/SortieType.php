@@ -53,13 +53,14 @@ class SortieType extends AbstractType
 
             ->add('infosSortie' , TextAreaType::class, [
                 'attr' => [
-                    'placeholder' => 'Description et information de la  sortie',
+                    'placeholder' => 'Description et information de la sortie',
                     'class' => 'form-control',
                 ],
              ])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'choice_label' => 'nom',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'ville organisatrice',
                     'class' => 'form-control',
