@@ -11,6 +11,7 @@ final class IndexController extends AbstractController
     #[Route('/')]
     public function accueil(): Response
     {
+        // redirige vers la page des sorties
         return $this->redirectToRoute('app_sortie_lister');
     }
 }
