@@ -9,22 +9,27 @@
 <main>
     <div class="card">
         {{ form_start(form) }}
-        <div class="card-body row">
-            <div class="col-md-4 align-content-center">
-                {{ form_row(form.dateDebut) }}
-                {{ form_row(form.dateFin) }}
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 align-content-center">
+                    {{ form_row(form.dateDebut) }}
+                    {{ form_row(form.dateFin) }}
+                </div>
+                <div class="col-md-4 align-content-center">
+                    {{ form_row(form.site) }}
+                    {{ form_row(form.nom) }}
+                </div>
+                <div class="col-md-4 align-content-center">
+                    {{ form_row(form.isInscrit) }}
+                    {{ form_row(form.isOrganisateur) }}
+                    {{ form_row(form.isPassee) }}
+                    {{ form_row(form.isOrganisateurAndCreee) }}
+                </div>
             </div>
-            <div class="col-md-4 align-content-center">
-                {{ form_row(form.site) }}
-                {{ form_row(form.nom) }}
-            </div>
-            <div class="col-md-4 align-content-center">
-                {{ form_row(form.isInscrit) }}
-                {{ form_row(form.isOrganisateur) }}
-                {{ form_row(form.isPassee) }}
-                <div class="row d-flex justify-content-between p-3">
+            <div class="row d-flex justify-content-between">
+                <div class="col-md-4 align-content-center">
                     <button type="submit" class="btn btn-outline-dark col-md-5 my-1">Filtrer</button>
-                    <a href="{{ path('app_sortie_lister') }}" class="btn btn-outline-danger col-md-6 my-1">Réinitaliser</a>
+                    <a href="{{ path('app_sortie_lister') }}" class="btn btn-outline-danger col-md-5 my-1">Réinitaliser</a>
                 </div>
             </div>
         </div>
@@ -53,6 +58,9 @@
                                     <p class="d-flex justify-content-between align-items-center">
                                         <span class="bg-{{ color_etat(sortie.etat) }} w-px-10 h-px-10 d-block rounded-4 me-2"></span>
                                         {{ sortie.etat.libelle|capitalize }}
+                                        {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and sortie.organisateur == app.user and ('Ouverte' in sortie.etat.libelle or 'Créée' in sortie.etat.libelle)) %}
+                                            <a href="{{ path('app_sortie_modifier', {sortieId : sortie.id}) }}" class="bx bx-edit ms-2 text-dark"></a>
+                                        {% endif %}
                                     </p>
                                 </div>
                                 <p class="card-text text-muted">{{ sortie.dateHeureDebut|date('d/m/Y H:i') }} - {{ sortie.organisateur.prenom|capitalize }} {{ sortie.organisateur.nom|upper }}</p>

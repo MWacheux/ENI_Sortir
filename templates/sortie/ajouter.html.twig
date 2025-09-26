@@ -7,7 +7,7 @@
     {{ form_start(sortieform) }}
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h1>Créer une sortie</h1>
+                <h1>{{ sortieform.vars.data.id ? 'Modifier' : 'Ajouter' }} une sortie</h1>
                 <a href="{{ path('app_sortie_lister') }}" class="btn btn-dark">Retour</a>
             </div>
             <div class="card-body">
