@@ -4,44 +4,22 @@
 
 {% block body %}
 
-    <a href="{{ path('app_sortie_lister') }}" class="btn btn-outline-secondary">retour</a>
-    <div class="container mt-4">
-        <h1 class="mb-4">Créer une sortie</h1>
-
-        {{ form_start(sortieform) }}
-
-        <div class="mb-3">
-            {{ form_row(sortieform.nom) }}
-        </div>
-
-        <div class="mb-3">
-            {{ form_row(sortieform.dateHeureDebut) }}
-        </div>
-
-        <div class="mb-3">
-            {{ form_row(sortieform.dateLimiteInscription) }}
-        </div>
-
-        <div class="mb-3">
-            {{ form_row(sortieform.nbInscriptionsMax) }}
-        </div>
-
-        <div class="row mb-3">
-            {{ form_row(sortieform.duree) }}
-        </div>
-
-        <div class="mb-3">
-            {{ form_row(sortieform.lieu) }}
-        </div>
-
-        <div class="mb-3">
-            <div>
-               {{ form_row(sortieform.infosSortie) }}
+    {{ form_start(sortieform) }}
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h1>Créer une sortie</h1>
+                <a href="{{ path('app_sortie_lister') }}" class="btn btn-dark">Retour</a>
+            </div>
+            <div class="card-body">
+                {{ form_row(sortieform.nom) }}
+                {{ form_row(sortieform.dateHeureDebut) }}
+                {{ form_row(sortieform.dateLimiteInscription) }}
+                {{ form_row(sortieform.nbInscriptionsMax) }}
+                {{ form_row(sortieform.duree) }}
+                {{ form_row(sortieform.lieu) }}
+                {{ form_row(sortieform.infosSortie) }}
+                <button type="submit" class="btn btn-dark">Enregistrer</button>
             </div>
         </div>
-
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-
-        {{ form_end(sortieform) }}
-    </div>
+    {{ form_end(sortieform) }}
 {% endblock %}

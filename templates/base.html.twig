@@ -18,7 +18,7 @@
 
                 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                     <div class="app-brand demo">
-                        <a href="index.html" class="app-brand-link">
+                        <a href="{{ path('app_index_accueil') }}" class="app-brand-link">
                   <span class="app-brand-logo demo">
 
                   </span>
@@ -34,20 +34,35 @@
 
                     <ul class="menu-inner py-1">
                         <li class="menu-item">
-                            <a href="index.html" class="menu-link">
+                            <a href="{{ path('app_index_accueil') }}" class="menu-link">
                                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                                 <div data-i18n="Analytics">Accueil</div>
                             </a>
                         </li>
                         <li class="menu-header small text-uppercase">
-                            <span class="menu-header-text">ADMIN</span>
+                            <span class="menu-header-text">ETUDIANT</span>
                         </li>
                         <li class="menu-item">
-                            <a href="{{ path('app_site_lister') }}" class="menu-link">
-                                <i class="menu-icon tf-icons bx bx-building"></i>
-                                <div>Sites</div>
+                            <a href="{{ path('app_sortie_lister') }}" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-book"></i>
+                                <div>Sorties</div>
                             </a>
                         </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="menu-header small text-uppercase">
+                                <span class="menu-header-text">ADMIN</span>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ path('app_site_lister') }}" class="menu-link">
+                                    <i class="menu-icon tf-icons bx bx-building"></i>
+                                    <div>Sites</div>
+                                </a>
+                                <a href="{{ path('app_participant_lister') }}" class="menu-link">
+                                    <i class="menu-icon tf-icons bx bx-user"></i>
+                                    <div>Utilisateurs</div>
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </aside>
                 <!-- / Menu -->
@@ -80,7 +95,7 @@
                                             {% if app.user.photo is not null %}
                                                 <img src="{{ app.request.scheme }}://{{ app.request.server.get('HTTP_HOST') }}/photo/{{ app.user.photo }}" alt="ma photo de profil" class="rounded-circle" style="object-fit: cover;" />
                                             {% else %}
-                                                <i class="bx bxs-user"></i>
+                                                <i class="bx bxs-user d-flex justify-content-center align-items-center bg-dark rounded-4"></i>
                                             {% endif %}
                                         </div>
                                     </a>
@@ -93,7 +108,7 @@
                                                             {% if app.user.photo is not null %}
                                                                 <img src="{{ app.request.scheme }}://{{ app.request.server.get('HTTP_HOST') }}/photo/{{ app.user.photo }}" alt="ma photo de profil" class="rounded-circle" style="object-fit: cover;" />
                                                             {% else %}
-                                                                <i class="bx bxs-user"></i>
+                                                                <i class="bx bxs-user d-flex justify-content-center align-items-center bg-dark rounded-4"></i>
                                                             {% endif %}
                                                         </div>
                                                     </div>
@@ -113,7 +128,7 @@
                                             <div class="dropdown-divider"></div>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="#">
+                                            <a class="dropdown-item" href="{{ path("app_participant_monprofil") }}">
                                                 <i class="bx bx-user me-2"></i>
                                                 <span class="align-middle">Mon profil</span>
                                             </a>
