@@ -17,8 +17,9 @@
                 {{ form_row(sortieform.nbInscriptionsMax) }}
                 {{ form_row(sortieform.duree) }}
                 {{ form_row(sortieform.lieu) }}
+                {{ form_row(sortieform.ajouterLieu) }}
                 {{ form_row(sortieform.infosSortie) }}
-                <button type="submit" class="btn btn-dark">Enregistrer</button>
+                {{ form_row(sortieform.enregistrerSortie) }}
             </div>
         </div>
     {{ form_end(sortieform) }}
