@@ -61,24 +61,22 @@
                                 </p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     {% if 'Ouverte' in sortie.etat.libelle %}
-                                        <a href="" class="btn btn-outline-dark">S'inscrire</a>
-                                        {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and sortie.organisateur == app.user) %}
-                                            <a href="{{ path('app_sortie_annuler', {sortie : sortie.id}) }}" class="btn btn-outline-danger">Annuler</a>
-                                        {% endif %}
-                                    {% endif %}
-                                    {% if app.user in sortie.participants %}
                                         {% if sortie.participants.contains(app.user) %}
                                             <a href="{{ path('app_sortie_toggleinscription', {id: sortie.id}) }}"
-                                               class="btn btn-outline-danger">
+                                               class="btn btn-outline-dark">
                                                 Se désinscrire
                                             </a>
                                         {% else %}
                                             <a href="{{ path('app_sortie_toggleinscription', {id: sortie.id}) }}"
-                                               class="btn btn-outline-primary">
+                                               class="btn btn-dark">
                                                 S'inscrire
                                             </a>
                                         {% endif %}
+                                        {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and sortie.organisateur == app.user) %}
+                                            <a href="{{ path('app_sortie_annuler', {sortie : sortie.id}) }}" class="btn btn-outline-danger">Annuler</a>
+                                        {% endif %}
                                     {% endif %}
+
                                 </div>
                             </div>
                             <div class="card-footer bg-{{ color_etat(sortie.etat) }} text-white fw-bold d-flex justify-content-between align-items-center flex-sm-wrap p-3">
