@@ -28,7 +28,7 @@ class Lieu
     private ?float $longitude = null;
 
     #[ORM\ManyToOne(inversedBy: 'lieux')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Ville $ville = null;
 
     /**

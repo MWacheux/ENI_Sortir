@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une ville{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    <div class="card">
+        <h5 class="card-header">{{ form.vars.data.id ? 'Modifier' : 'Ajouter' }} une ville</h5>
+        <div class="card-body">
+            {{ form_row(form.nom) }}
+            {{ form_row(form.codePostal) }}
+            <button type="submit" class="btn btn-success mt-3">Ajouter</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
