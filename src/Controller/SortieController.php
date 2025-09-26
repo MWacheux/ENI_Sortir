@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use App\Enum\EtatEnum;
 use App\Form\Filtre\FiltreSortieType;
 use App\Form\SortieType;
+use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use App\Repository\EtatRepository;
@@ -17,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Workflow\Registry;
@@ -27,9 +29,10 @@ final class SortieController extends AbstractController
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly SortieRepository $sortieRepository,
-        private readonly SiteRepository $siteRepository,
-        private readonly EtatRepository $etatRepository,
+        private readonly SortieRepository       $sortieRepository,
+        private readonly SiteRepository         $siteRepository,
+        private readonly LieuRepository         $lieuRepository,
+        private readonly EtatRepository         $etatRepository,
         private readonly ParticipantRepository  $participantRepository,
     )
     {
@@ -42,14 +45,8 @@ final class SortieController extends AbstractController
         // crée le fomulaire de filtre
         $form = $this->createForm(FiltreSortieType::class, $filtre, ['method' => 'GET']);
         $form->handleRequest($request);
-        // test si le formulaire est soumis ET valide
-        $form->isSubmitted() && $form->isValid() ?
-            // récupère toutes les sorties AVEC les fitlres
-            $sorties = $this->sortieRepository->getSorties($filtre, $this->getUser())
-        :
-            // récupère toutes les sorties SANS filtre
-            $sorties = $this->sortieRepository->findAll()
-        ;
+        // récupère toutes les sorties AVEC les fitlres
+        $sorties = $this->sortieRepository->getSorties($filtre, $this->getUser());
         $sites = [];
         // rend unique la liste
         foreach ($sorties as $sortie) {
@@ -77,18 +74,35 @@ final class SortieController extends AbstractController
         $form->handleRequest($request);
         // test si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $etat = $this->etatRepository->findOneBy(['libelle' => EtatEnum::OUVERTE]);
+            $etat = $this->etatRepository->findOneBy(['libelle' => EtatEnum::CREEE]);
             $sortie->setEtat($etat);
             $sortie->setOrganisateur($this->getUser());
             $sortie->setSite($this->getUser()->getSite());
+
+            if($form->get('enregistrerSortie')->isClicked()){
+                $etat = $this->etatRepository->findOneBy(['libelle' => EtatEnum::OUVERTE]);
+                $sortie->setEtat($etat);
+                if(!$form->get('lieu')->getData()){
+                    $this->addFlash('error', 'La sortie doit avoir un lieu');
+                    return $this->render('sortie/ajouter.html.twig', [
+                        'sortieform' => $form,
+                    ]);
+                }
+            }
             // sauvegarde le site en base de donnée
             $this->entityManager->persist($sortie);
             // maj en base de données
             $this->entityManager->flush();
 
             // ajoute un message de success
-            $this->addFlash('success', 'La sortie "' . $sortie->getNom() . '" a bien été enregistrer');
+            $this->addFlash('success', 'La sortie "' . $sortie->getNom() . '" a bien été enregistrée');
+
+            if($form->get('ajouterLieu')->isClicked()){
+                return $this->redirectToRoute('app_lieu_ajouter', [
+                    'sortieId' => $sortie->getId(),
+                ]);
+            }
+
             return $this->redirectToRoute('app_sortie_lister');
         }
         return $this->render('sortie/ajouter.html.twig', [
@@ -149,4 +163,41 @@ final class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_lister');
     }
 
+
+    #[Route(['/modifier/{sortieId}', '/modifier/{sortieId}/{lieuId}'])]
+    public function modifier(Request $request, int $sortieId, ?int $lieuId): Response
+    {
+        $sortie = $this->sortieRepository->find($sortieId);
+        if ($sortie->getEtat()->getLibelle() !== EtatEnum::OUVERTE->value){
+            $this->addFlash('error', 'La sortie ne peut pas être modifiée');
+            return $this->redirectToRoute('app_sortie_lister');
+        }
+        if ($sortie->getOrganisateur() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')){
+            $this->addFlash('error', 'Vous avez pas les permissions');
+            return $this->redirectToRoute('app_sortie_lister');
+        }
+        if ($lieuId){
+            $lieu = $this->lieuRepository->find($lieuId);
+            $sortie->setLieu($lieu);
+        }
+
+        // création du formulaire
+        $form = $this->createForm(SortieType::class, $sortie);
+        // gestion des données de la request
+        $form->handleRequest($request);
+        // test si le formulaire est soumis et valide
+        if ($form->isSubmitted() && $form->isValid()) {
+            // sauvegarde le site en base de donnée
+            $this->entityManager->persist($sortie);
+            // maj en base de données
+            $this->entityManager->flush();
+
+            // ajoute un message de success
+            $this->addFlash('success', 'La sortie "'.$sortie->getNom().'" a bien été enregistrée');
+            return $this->redirectToRoute('app_sortie_lister');
+        }
+        return $this->render('sortie/ajouter.html.twig', [
+            'sortieform' => $form,
+        ]);
+    }
 }

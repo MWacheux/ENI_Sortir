@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Filtre\FiltreSortie;
 use App\Entity\Participant;
 use App\Entity\Sortie;
+use App\Enum\EtatEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -56,6 +57,16 @@ class SortieRepository extends ServiceEntityRepository
         if ($filtre->isPassee){
             $builder->andWhere('etat.libelle = :etatLibelle')
                 ->setParameter('etatLibelle', 'passée');
+        }
+        if (!$filtre->isOrganisateurAndCreee){
+            $builder->andWhere('etat.libelle <> :libelle')
+                ->setParameter('libelle', EtatEnum::CREEE->value);
+        }else{
+            $builder->andWhere('etat.libelle <> :libelle')
+                ->setParameter('libelle', EtatEnum::CREEE->value)
+                ->orWhere('etat.libelle = :libelle and sortie.organisateur = :organisateur')
+                ->setParameter('libelle', EtatEnum::CREEE->value)
+                ->setParameter('organisateur', $participant->getId());
         }
         return $builder->getQuery()->getResult();
     }

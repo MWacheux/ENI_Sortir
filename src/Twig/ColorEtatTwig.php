@@ -21,6 +21,7 @@ class ColorEtatTwig extends AbstractExtension
     public function colorEtatTwig(Etat $etat) :string
     {
         return match ($etat->getLibelle()) {
+            EtatEnum::CREEE->value => 'info',
             EtatEnum::OUVERTE->value => 'success',
             EtatEnum::ANNULEE->value => 'danger',
             EtatEnum::PASSEE->value => 'secondary',
