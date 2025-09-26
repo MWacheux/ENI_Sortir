@@ -23,7 +23,7 @@
                 {{ form_row(form.isOrganisateur) }}
                 {{ form_row(form.isPassee) }}
                 <div class="row d-flex justify-content-between p-3">
-                    <button type="submit" class="btn btn-outline-dark col-md-5 my-1">Filtrer</button>
+                    <button type="submit" class="btn btn-dark col-md-5 my-1">Filtrer</button>
                     <a href="{{ path('app_sortie_lister') }}" class="btn btn-outline-danger col-md-6 my-1">Réinitaliser</a>
                 </div>
             </div>
@@ -72,17 +72,17 @@
                                                 S'inscrire
                                             </a>
                                         {% endif %}
-                                        {% if app.user in sortie.participants %}
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <i class="bx bx-check-circle text-success me-2"></i>
-                                                <p class="p-0 m-0">Inscrit</p>
-                                            </div>
-                                        {% endif %}
                                         {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and sortie.organisateur == app.user) %}
                                             <a href="{{ path('app_sortie_annuler', {sortie : sortie.id}) }}" class="btn btn-outline-danger">Annuler</a>
                                         {% endif %}
                                     {% endif %}
                                 </div>
+                                {% if app.user in sortie.participants %}
+                                    <div class="d-flex justify-content-start align-items-center mt-2">
+                                        <i class="bx bx-check-circle text-success me-2"></i>
+                                        <p class="p-0 m-0">Inscrit</p>
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="card-footer bg-{{ color_etat(sortie.etat) }} text-white fw-bold d-flex justify-content-between align-items-center flex-sm-wrap p-3">
                                <p class="px-2 p-0 m-0">Inscrits : {{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</p>
