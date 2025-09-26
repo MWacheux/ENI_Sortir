@@ -40,21 +40,20 @@ final class SortieController extends AbstractController
         $form = $this->createForm(FiltreSortieType::class, $filtre, ['method' => 'GET']);
         $form->handleRequest($request);
         // test si le formulaire est soumis ET valide
-        if ($form->isSubmitted() && $form->isValid()) {
+        $form->isSubmitted() && $form->isValid() ?
             // récupère toutes les sorties AVEC les fitlres
-            $sorties = $this->sortieRepository->getSorties($filtre, $this->getUser());
-            if ($filtre->site){
-                // récupère le site du filtre
-                $sites = $this->siteRepository->findBy(['id' => $filtre->site->getId()]);
-            }else{
-                // récupère tous les sites
-                $sites = $this->siteRepository->findAll();
-            }
-        }else{
+            $sorties = $this->sortieRepository->getSorties($filtre, $this->getUser())
+        :
             // récupère toutes les sorties SANS filtre
-            $sorties = $this->sortieRepository->findAll();
-            // récupère tous les sites
-            $sites = $this->siteRepository->findAll();
+            $sorties = $this->sortieRepository->findAll()
+        ;
+        $sites = [];
+        // rend unique la liste
+        foreach ($sorties as $sortie) {
+            $site = $sortie->getSite();
+            if ($site && !in_array($site, $sites, true)) {
+                $sites[] = $site;
+            }
         }
         // return la vue
         return $this->render('sortie/lister.html.twig', [
@@ -76,12 +75,10 @@ final class SortieController extends AbstractController
         // test si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $etat = $this->etatRepository->find(1);
+            $etat = $this->etatRepository->findOneBy(['libelle' => EtatEnum::OUVERTE]);
             $sortie->setEtat($etat);
             $sortie->setOrganisateur($this->getUser());
-
-            $site = $this->siteRepository->find(1);
-            $sortie->setSite($site);
+            $sortie->setSite($this->getUser()->getSite());
             // sauvegarde le site en base de donnée
             $this->entityManager->persist($sortie);
             // maj en base de données
