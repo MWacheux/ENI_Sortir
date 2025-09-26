@@ -32,6 +32,9 @@
     </div>
     <a href="{{ path('app_sortie_ajouter') }}" class="btn btn-success mt-3">Ajouter une sortie</a>
     <div class="row mt-3">
+        {% if sorties|length == 0 %}
+            <div class="col-md-12 mb-3 text-center">Il n'y a pas de sortie prévue</div>
+        {% endif %}
         {% for site in sites %}
             <div class="col-md-12 mb-3">
                 <div class="card">
@@ -40,9 +43,6 @@
                     </div>
                 </div>
             </div>
-            {% if site.sorties|length == 0 %}
-                <div class="col-md-12 mb-3 text-center">Il n'y a pas de sortie prévue sur {{ site.nom|capitalize }}</div>
-            {% endif %}
             {% for sortie in sorties %}
                 {% if sortie.site == site %}
                     <div class="col-md-6 col-lg-4 mb-3">

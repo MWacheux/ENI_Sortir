@@ -16,10 +16,27 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+        // creation des sites
+        $nantes = new Site();
+        $nantes->setNom('Nantes');
+        $manager->persist($nantes);
+        $rennes = new Site();
+        $rennes->setNom('Rennes');
+        $manager->persist($rennes);
+        $niort = new Site();
+        $niort->setNom('Niort');
+        $manager->persist($niort);
+        $quimper = new Site();
+        $quimper->setNom('Quimper');
+        $manager->persist($quimper);
+        $enLigne = new Site();
+        $enLigne->setNom('En ligne');
+        $manager->persist($enLigne);
         // Creation de l'admin
         $admin = new Participant();
         $admin->setNom('ENI')
             ->setPrenom('Admin')
+            ->setSite($nantes)
             ->setActif(true)
             ->setEmail('admin@test.fr')
             ->setPassword('$2y$13$J/3BoAyb0/O3nGBrf04U6.1vMfrjsl/2Wc0xaAJ9YpS2xNxpKucx2')
@@ -30,6 +47,7 @@ class AppFixtures extends Fixture
         $maiwenn = new Participant();
         $maiwenn->setNom('WACHEUX')
             ->setPrenom('Maïwenn')
+            ->setSite($nantes)
             ->setActif(true)
             ->setEmail('mwacheux@test.fr')
             ->setPassword('$2y$13$J/3BoAyb0/O3nGBrf04U6.1vMfrjsl/2Wc0xaAJ9YpS2xNxpKucx2')
@@ -39,6 +57,7 @@ class AppFixtures extends Fixture
         $noa = new Participant();
         $noa->setNom('HERVIEU')
             ->setPrenom('Noä')
+            ->setSite($nantes)
             ->setActif(true)
             ->setEmail('nhervieu@test.fr')
             ->setPassword('$2y$13$J/3BoAyb0/O3nGBrf04U6.1vMfrjsl/2Wc0xaAJ9YpS2xNxpKucx2')
@@ -67,22 +86,6 @@ class AppFixtures extends Fixture
         $archivee = new Etat();
         $archivee->setLibelle(EtatEnum::ARCHIVEE->value);
         $manager->persist($archivee);
-        // creation des sites
-        $nantes = new Site();
-        $nantes->setNom('Nantes');
-        $manager->persist($nantes);
-        $rennes = new Site();
-        $rennes->setNom('Rennes');
-        $manager->persist($rennes);
-        $niort = new Site();
-        $niort->setNom('Niort');
-        $manager->persist($niort);
-        $quimper = new Site();
-        $quimper->setNom('Quimper');
-        $manager->persist($quimper);
-        $enLigne = new Site();
-        $enLigne->setNom('En ligne');
-        $manager->persist($enLigne);
 
         // creation de ville
         $brest = new Ville();

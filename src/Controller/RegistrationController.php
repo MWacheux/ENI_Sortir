@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\RegistrationFormType;
+use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,16 +15,20 @@ use Symfony\Component\Routing\Attribute\Route;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository): Response
     {
         $participant = new Participant();
         $form = $this->createForm(RegistrationFormType::class, $participant);
         $form->handleRequest($request);
-
+        $participants = $participantRepository->findAll();
+        if (count($participants) != 0){
+            $this->addFlash('error', 'La création de compte est désactivée');
+            return $this->redirectToRoute('app_login');
+        }
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
-
+            $participant->setRoles(['ROLE_ADMIN']);
             // encode the plain password
             $participant->setPassword($userPasswordHasher->hashPassword($participant, $plainPassword));
 

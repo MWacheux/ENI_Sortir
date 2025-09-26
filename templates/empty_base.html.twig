@@ -22,12 +22,25 @@
                     <div class="card-body">
                         <!-- Logo -->
                         <div class="app-brand justify-content-center">
-                            <a href="index.html" class="app-brand-link gap-2">
+                            <a href="{{ path('app_index_accueil') }}" class="app-brand-link gap-2">
                                 <span class="app-brand-text demo text-heading fw-bold">Sortir.com</span>
                             </a>
                         </div>
                         <!-- /Logo -->
                         <h4 class="mb-3">{% block titre %}{% endblock %}</h4>
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-primary alert-dismissible" role="alert">
+                                {{message}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+
+                        {% for message in app.flashes('error') %}
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                {{message}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
                         {% block body %}{% endblock %}
                     </div>
                 </div>
