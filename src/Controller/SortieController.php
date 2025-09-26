@@ -181,13 +181,6 @@ final class SortieController extends AbstractController
         $form->handleRequest($request);
         // test si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $etat = $this->etatRepository->find(1);
-            $sortie->setEtat($etat);
-            $sortie->setOrganisateur($this->getUser());
-
-            $site = $this->siteRepository->find(1);
-            $sortie->setSite($site);
             // sauvegarde le site en base de donnée
             $this->entityManager->persist($sortie);
             // maj en base de données
