@@ -19,5 +19,9 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    App\Services\EtatMarkingStoreService:
+        autowire: true
+        autoconfigure: true
+
     App\Twig\ColorEtatTwig:
         tags: ['twig.extension']
