@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Participant;
 use App\Form\ProfilType;
 use App\Repository\ParticipantRepository;
-use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,8 +19,7 @@ final class ParticipantController extends AbstractController
     public function __construct(
         private readonly ParticipantRepository $participantRepository,
         private readonly EntityManagerInterface $em,
-    )
-    {
+    ) {
     }
 
     #[Route('/profil')]
@@ -37,7 +35,7 @@ final class ParticipantController extends AbstractController
             $file = $form['photo']->getData();
 
             if ($participant->getPhoto()) {
-                $oldPath = __DIR__ . '/../../public/photo/' . $participant->getPhoto();
+                $oldPath = __DIR__.'/../../public/photo/'.$participant->getPhoto();
                 if (file_exists($oldPath)) {
                     unlink($oldPath);
                 }
@@ -45,11 +43,11 @@ final class ParticipantController extends AbstractController
 
             $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFilename = $slugger->slug($originalFilename);
-            $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
             // Déplacement du fichier
             $file->move(
-                __DIR__ . '/../../public/photo',
+                __DIR__.'/../../public/photo',
                 $newFilename
             );
 
@@ -57,16 +55,16 @@ final class ParticipantController extends AbstractController
 
             $this->em->persist($participant);
             $this->em->flush();
-            $this->addFlash("success", "Modifications prises en compte");
+            $this->addFlash('success', 'Modifications prises en compte');
+
             return $this->redirectToRoute('app_participant_monprofil');
         }
 
         return $this->render('profil/profil.html.twig', [
             'form' => $form,
-            'photo' => $baseUrl . '/photo/'.$participant->getPhoto(),
+            'photo' => $baseUrl.'/photo/'.$participant->getPhoto(),
         ]);
     }
-
 
     #[Route('/consulter/{id}')]
     public function consulter(Request $request, int $id): Response
@@ -77,14 +75,12 @@ final class ParticipantController extends AbstractController
 
         return $this->render('profil/consulter.html.twig', [
             'participant' => $participant,
-            'photo' => $baseUrl . '/photo/'.$participant->getPhoto(),
+            'photo' => $baseUrl.'/photo/'.$participant->getPhoto(),
         ]);
     }
 
-
-
     #[Route('/ajouter')]
-    #[IsGranted("ROLE_ADMIN", message: 'Vous n\'avez pas les permissions')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les permissions')]
     public function ajouter(Request $request): Response
     {
         $participant = new Participant();
@@ -96,31 +92,33 @@ final class ParticipantController extends AbstractController
             $this->em->persist($participant);
             $this->em->flush();
             $this->addFlash('success', 'L\'utilisateur "'.$participant->getPrenom().' '.$participant->getNom().'" a bien été enregistré');
+
             return $this->redirectToRoute('app_participant_lister');
         }
 
         return $this->render('utilisateur/ajouter.html.twig', [
-            'form' => $form
+            'form' => $form,
         ]);
     }
 
     #[Route('/supprimer/{utilisateur}')]
-    #[IsGranted("ROLE_ADMIN", message: 'Vous n\'avez pas les permissions')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les permissions')]
     public function supprimer(Participant $utilisateur): Response
     {
-        if($utilisateur)
-        {
+        if ($utilisateur) {
             $this->em->remove($utilisateur);
             $this->em->flush();
             $this->addFlash('success', 'L\'utilisateur "'.$utilisateur->getPrenom().' '.$utilisateur->getNom().'" a bien été supprimé');
+
             return $this->redirectToRoute('app_participant_lister');
         }
         $this->addFlash('error', 'L\'utilisateur "'.$utilisateur->getPrenom().' '.$utilisateur->getNom().'" n\'est pas trouvé');
+
         return $this->redirectToRoute('app_participant_lister');
     }
 
     #[Route('/')]
-    #[IsGranted("ROLE_ADMIN", message: 'Vous n\'avez pas les permissions')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les permissions')]
     public function lister(): Response
     {
         $utilisateurs = $this->participantRepository->findAll();
@@ -131,7 +129,7 @@ final class ParticipantController extends AbstractController
     }
 
     #[Route('/desactiver/{utilisateur}')]
-    #[IsGranted("ROLE_ADMIN", message: 'Vous n\'avez pas les permissions')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les permissions')]
     public function desactiver(Participant $utilisateur): Response
     {
         $utilisateur->setActif(false);
@@ -143,7 +141,7 @@ final class ParticipantController extends AbstractController
     }
 
     #[Route('/activer/{utilisateur}')]
-    #[IsGranted("ROLE_ADMIN", message: 'Vous n\'avez pas les permissions')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les permissions')]
     public function activer(Participant $utilisateur): Response
     {
         $utilisateur->setActif(true);

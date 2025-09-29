@@ -144,7 +144,7 @@ class AppFixtures extends Fixture
 
         // Creation des sorties
         $sortieOuverte = (new Sortie())
-            ->setNom("Escape game")
+            ->setNom('Escape game')
             ->setLieu($escapeGame)
             ->setEtat($ouverte)
             ->setSite($nantes)
@@ -156,7 +156,7 @@ class AppFixtures extends Fixture
             ->setNbInscriptionsMax(4);
         $manager->persist($sortieOuverte);
         $sortieOuverte = (new Sortie())
-            ->setNom("Bowling")
+            ->setNom('Bowling')
             ->setLieu($bowling)
             ->setEtat($ouverte)
             ->setSite($nantes)
@@ -168,7 +168,7 @@ class AppFixtures extends Fixture
             ->setNbInscriptionsMax(4);
         $manager->persist($sortieOuverte);
         $sortieCloturee = (new Sortie())
-            ->setNom("Paintball")
+            ->setNom('Paintball')
             ->setLieu($paintBall)
             ->setEtat($ouverte)
             ->setSite($rennes)
@@ -180,7 +180,7 @@ class AppFixtures extends Fixture
             ->setNbInscriptionsMax(16);
         $manager->persist($sortieCloturee);
         $sortiePassee = (new Sortie())
-            ->setNom("Cinéma")
+            ->setNom('Cinéma')
             ->setLieu($cinema)
             ->setEtat($passee)
             ->setSite($nantes)
@@ -192,7 +192,7 @@ class AppFixtures extends Fixture
             ->setNbInscriptionsMax(6);
         $manager->persist($sortiePassee);
         $sortieArchivee = (new Sortie())
-            ->setNom("Escalade")
+            ->setNom('Escalade')
             ->setLieu($escalade)
             ->setEtat($archivee)
             ->setSite($niort)

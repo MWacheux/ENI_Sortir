@@ -13,7 +13,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/ville')]
 final class VilleController extends AbstractController
 {
-
     public function __construct(
         private readonly EntityManagerInterface $entityManager)
     {
@@ -26,11 +25,12 @@ final class VilleController extends AbstractController
         $form = $this->createForm(VilleType::class, $ville);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $lieu = $form->getData();
             $this->entityManager->persist($lieu);
             $this->entityManager->flush();
             $this->addFlash('success', 'La ville "'.$ville->getNom().'" a bien été ajoutée');
+
             return $this->redirectToRoute('app_lieu_modifier', [
                 'sortieId' => $sortieId,
                 'lieuId' => $lieuId,

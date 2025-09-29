@@ -24,22 +24,22 @@ class ProfilType extends AbstractType
             ->add('nom', TextType::class, [
                 'attr' => [
                     'class' => 'form-control mb-2',
-                ]
+                ],
             ])
             ->add('prenom', TextType::class, [
                 'attr' => [
                     'class' => 'form-control mb-2',
-                ]
+                ],
             ])
             ->add('telephone', TextType::class, [
                 'attr' => [
                     'class' => 'form-control mb-2',
-                ]
+                ],
             ])
             ->add('email', EmailType::class, [
                 'attr' => [
                     'class' => 'form-control mb-2',
-                ]
+                ],
             ])
         ;
     }

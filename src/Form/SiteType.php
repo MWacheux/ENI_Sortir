@@ -17,8 +17,8 @@ class SiteType extends AbstractType
                 'label' => 'Nom',
                 'attr' => [
                     'placeholder' => 'Ex : Nantes',
-                    'class' => 'form-control'
-                ]
+                    'class' => 'form-control',
+                ],
             ])
         ;
     }
