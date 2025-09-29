@@ -56,7 +56,7 @@ class SortieRepository extends ServiceEntityRepository
         }
         if ($filtre->isPassee){
             $builder->andWhere('etat.libelle = :etatLibelle')
-                ->setParameter('etatLibelle', 'passée');
+                ->setParameter('etatLibelle', EtatEnum::PASSEE);
         }
         if (!$filtre->isOrganisateurAndCreee){
             $builder->andWhere('etat.libelle <> :libelle')
