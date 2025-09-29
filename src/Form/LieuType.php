@@ -24,11 +24,14 @@ class LieuType extends AbstractType
                 'class' => Ville::class,
                 'choice_label' => 'nom',
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('ajouterVille', SubmitType::class, [
                 'label' => 'Ajouter une ville',
                 'attr' => [
-                    'class' => 'btn btn-dark mb-3',
+                    'class' => 'btn btn-dark',
                 ],
             ])
             ->add('enregistrerLieu', SubmitType::class, [

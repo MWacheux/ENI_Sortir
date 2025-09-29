@@ -11,8 +11,11 @@
             {{ form_row(form.rue) }}
             {{ form_row(form.latitude) }}
             {{ form_row(form.longitude) }}
-            {{ form_row(form.ville) }}
-            {{ form_row(form.ajouterVille) }}
+            {{ form_label(form.ville) }}
+            <div class="input-group mb-3">
+                {{ form_widget(form.ville) }}
+                {{ form_widget(form.ajouterVille) }}
+            </div>
             {{ form_row(form.enregistrerLieu) }}
         </div>
     </div>
