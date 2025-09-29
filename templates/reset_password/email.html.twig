@@ -1,9 +1,13 @@
-<h1>Hi!</h1>
 
-<p>To reset your password, please visit the following link</p>
 
-<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+<p>Bonjour {{ pseudo }},</p>
 
-<p>This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+<p>Vous avez demandé à réinitialiser votre mot de passe. Cliquez sur le lien ci-dessous pour choisir un nouveau mot de passe :</p>
 
-<p>Cheers!</p>
+<p><a href="{{ reset_url|raw }}">{{ reset_url|raw }}</a></p>
+
+<p>Merci,</p>
+
+<p>L’équipe ENI Sortir</p>
+
+
