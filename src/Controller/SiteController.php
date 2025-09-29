@@ -13,15 +13,13 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/site')]
-#[IsGranted("ROLE_ADMIN", message: 'Vous n\'avez pas les permissions')]
+#[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les permissions')]
 final class SiteController extends AbstractController
 {
-
     public function __construct(
         private readonly SiteRepository $siteRepository,
         private readonly EntityManagerInterface $em,
-    )
-    {
+    ) {
     }
 
     #[Route('/')]
@@ -41,6 +39,7 @@ final class SiteController extends AbstractController
     {
         // creation de l'instance de site pour le formulaire
         $site = new Site();
+
         return $this->form($request, $site);
     }
 
@@ -50,7 +49,8 @@ final class SiteController extends AbstractController
         return $this->form($request, $site);
     }
 
-    private function form(Request $request, ?Site $site) {
+    private function form(Request $request, ?Site $site)
+    {
         // crée le formulaire
         $form = $this->createForm(SiteType::class, $site);
         // gestion des données de la request
@@ -62,9 +62,11 @@ final class SiteController extends AbstractController
             $this->em->flush();
             // ajoute un message de success
             $this->addFlash('success', 'Le site "'.$site->getNom().'" a bien été enregistrer');
+
             // redirige le user sur la pga lister
             return $this->redirectToRoute('app_site_lister');
         }
+
         // affiche la page pour ajouter un site
         return $this->render('site/ajouter.html.twig', [
             'form' => $form,
@@ -74,13 +76,15 @@ final class SiteController extends AbstractController
     #[Route('/supprimer/{site}')]
     public function supprimer(?Site $site): Response
     {
-        if ($site){
+        if ($site) {
             $this->em->remove($site);
             $this->em->flush();
             $this->addFlash('success', 'Le site "'.$site->getNom().'" a bien été supprimer');
+
             return $this->redirectToRoute('app_site_lister');
         }
         $this->addFlash('error', 'Le site n\'existe pas');
+
         return $this->redirectToRoute('app_site_lister');
     }
 }

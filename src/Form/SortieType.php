@@ -7,7 +7,6 @@ use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -27,19 +26,19 @@ class SortieType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('dateHeureDebut' , DateTimeType::class, [
+            ->add('dateHeureDebut', DateTimeType::class, [
                 'label' => 'Date et heure de la sortie',
                 'attr' => [
                     'class' => 'form-control',
                 ],
             ])
-            ->add('dateLimiteInscription', DateTimeType::class,[
+            ->add('dateLimiteInscription', DateTimeType::class, [
                 'label' => 'Date limite pour s\'inscription',
                 'attr' => [
-                'class' => 'form-control',
+                    'class' => 'form-control',
                 ],
             ])
-            -> add('nbInscriptionsMax', IntegerType::class, [
+            ->add('nbInscriptionsMax', IntegerType::class, [
                 'label' => 'Nombre de places',
                 'attr' => [
                     'class' => 'form-control',
@@ -52,12 +51,12 @@ class SortieType extends AbstractType
                 ],
             ])
 
-            ->add('infosSortie' , TextAreaType::class, [
+            ->add('infosSortie', TextareaType::class, [
                 'attr' => [
                     'placeholder' => 'Description et information de la sortie',
                     'class' => 'form-control',
                 ],
-             ])
+            ])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'choice_label' => 'nom',
@@ -67,18 +66,18 @@ class SortieType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('ajouterLieu', SubmitType::class, array(
+            ->add('ajouterLieu', SubmitType::class, [
                 'label' => 'Ajouter un lieu',
-                'attr' => [
-                    'class' => 'btn btn-dark mb-3',
-                ],
-            ))
-            ->add('enregistrerSortie', SubmitType::class, array(
-                'label' => 'Enregistrer',
                 'attr' => [
                     'class' => 'btn btn-dark',
                 ],
-            ))
+            ])
+            ->add('enregistrerSortie', SubmitType::class, [
+                'label' => 'Enregistrer',
+                'attr' => [
+                    'class' => 'btn btn-dark  mt-3',
+                ],
+            ])
 
         ;
     }

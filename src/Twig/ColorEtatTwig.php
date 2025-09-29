@@ -1,6 +1,7 @@
 <?php
 
 // src/Twig/MonExtension.php
+
 namespace App\Twig;
 
 use App\Entity\Etat;
@@ -10,7 +11,6 @@ use Twig\TwigFunction;
 
 class ColorEtatTwig extends AbstractExtension
 {
-
     public function getFunctions(): array
     {
         return [
@@ -18,7 +18,7 @@ class ColorEtatTwig extends AbstractExtension
         ];
     }
 
-    public function colorEtatTwig(Etat $etat) :string
+    public function colorEtatTwig(Etat $etat): string
     {
         return match ($etat->getLibelle()) {
             EtatEnum::CREEE->value => 'info',

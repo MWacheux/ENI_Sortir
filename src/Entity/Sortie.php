@@ -6,6 +6,7 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -15,22 +16,26 @@ class Sortie
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
+    #[Assert\Length(min: 2, max: 50, minMessage: 'Le nom doit comporter strictemnt plus de 2 caractères.', maxMessage: 'Le nom doit comporter 50 caractères ou moins.')]
     private ?string $nom = null;
 
     #[ORM\Column]
+    #[Assert\GreaterThan('now', message: 'La date doit être supérieur à la date actuelle')]
     private ?\DateTime $dateHeureDebut = null;
 
     #[ORM\Column]
     private ?int $duree = null;
 
     #[ORM\Column]
+    #[Assert\Expression('this.getDateHeureDebut() > this.getDateLimiteInscription()', message: 'La date doit être inferieur à la date de début de la sortie')]
     private ?\DateTime $dateLimiteInscription = null;
 
     #[ORM\Column]
     private ?int $nbInscriptionsMax = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 250, nullable: true)]
+    #[Assert\Length(min: 2, max: 250, minMessage: 'La description doit comporter strictemnt plus de 2 caractères.', maxMessage: 'La description doit comporter 250 caractères ou moins.')]
     private ?string $infosSortie = null;
 
     #[ORM\ManyToOne(inversedBy: 'sorties')]

@@ -25,13 +25,13 @@ class FiltreSortieType extends AbstractType
                 ],
                 'required' => false,
             ])
-            ->add('dateDebut' , DateType::class, [
+            ->add('dateDebut', DateType::class, [
                 'attr' => [
                     'class' => 'form-control',
                 ],
                 'required' => false,
             ])
-            ->add('dateFin' , DateType::class, [
+            ->add('dateFin', DateType::class, [
                 'attr' => [
                     'class' => 'form-control',
                 ],
@@ -81,7 +81,7 @@ class FiltreSortieType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => FiltreSortie::class,
-            'csrf_protection' => false
+            'csrf_protection' => false,
         ]);
     }
 }

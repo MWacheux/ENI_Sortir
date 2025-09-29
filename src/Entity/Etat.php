@@ -6,6 +6,7 @@ use App\Repository\EtatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EtatRepository::class)]
 class Etat
@@ -16,6 +17,7 @@ class Etat
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\Length(min: 2, max: 20, minMessage: 'Le libelle doit avoir au moins 2 caractères', maxMessage: 'Le libelle ne doit pas avoir plus de 20 caractères')]
     private ?string $libelle = null;
 
     /**
