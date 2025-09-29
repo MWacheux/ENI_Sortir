@@ -12,13 +12,16 @@
             </div>
             <div class="card-body">
                 {{ form_row(sortieform.nom) }}
+                {{ form_row(sortieform.infosSortie) }}
                 {{ form_row(sortieform.dateHeureDebut) }}
                 {{ form_row(sortieform.dateLimiteInscription) }}
                 {{ form_row(sortieform.nbInscriptionsMax) }}
                 {{ form_row(sortieform.duree) }}
-                {{ form_row(sortieform.lieu) }}
-                {{ form_row(sortieform.ajouterLieu) }}
-                {{ form_row(sortieform.infosSortie) }}
+                {{ form_label(sortieform.lieu) }}
+                <div class="input-group">
+                    {{ form_widget(sortieform.lieu) }}
+                    {{ form_widget(sortieform.ajouterLieu) }}
+                </div>
                 {{ form_row(sortieform.enregistrerSortie) }}
             </div>
         </div>

@@ -108,35 +108,35 @@ class AppFixtures extends Fixture
         // creation des lieux
         $escapeGame = (new Lieu())
             ->setNom('LockQuest')
-            ->setRue('6 Chem. de Lamballard, 14760 Bretteville-sur-Odon')
+            ->setRue('6 Chem. de Lamballard')
             ->setVille($caen)
             ->setLatitude(0)
             ->setLongitude(0);
         $manager->persist($escapeGame);
         $paintBall = (new Lieu())
             ->setNom('L\'usine')
-            ->setRue('l\'épinière, 2 domaine de Sienne, 50410 Percy-en-Normandie')
+            ->setRue('l\'épinière, 2 domaine de Sienne')
             ->setVille($percy)
             ->setLatitude(0)
             ->setLongitude(0);
         $manager->persist($paintBall);
         $cinema = (new Lieu())
             ->setNom('Cinéma Pathé')
-            ->setRue('8 All. la Pérouse, 44800 Saint-Herblain')
+            ->setRue('8 All. la Pérouse')
             ->setVille($saintHerblain)
             ->setLatitude(0)
             ->setLongitude(0);
         $manager->persist($cinema);
         $escalade = (new Lieu())
             ->setNom('Vertical Art')
-            ->setRue('1 Rue d\'Athènes, 44300 Nantes')
+            ->setRue('1 Rue d\'Athènes')
             ->setVille($saintHerblain)
             ->setLatitude(0)
             ->setLongitude(0);
         $manager->persist($escalade);
         $bowling = (new Lieu())
             ->setNom('Bowling')
-            ->setRue('1 Rue d\'Athènes, 44300 Nantes')
+            ->setRue('1 Rue d\'Athènes')
             ->setVille($saintHerblain)
             ->setLatitude(0)
             ->setLongitude(0);

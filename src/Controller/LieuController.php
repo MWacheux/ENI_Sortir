@@ -63,27 +63,37 @@ final class LieuController extends AbstractController
         ]);
     }
 
-    #[Route('/modifier/{lieuId}/{villeId}/{sortieId}')]
-    public function modifier(Request $request, int $lieuId, int $villeId, int $sortieId): Response
+    #[Route('/modifier/{lieuId}/{sortieId}/{villeId}')]
+    public function modifier(Request $request, int $lieuId, ?int $villeId, int $sortieId): Response
     {
         $lieu = $this->lieuRepository->find($lieuId);
-        $ville = $this->villeRepository->find($villeId);
-        $lieu->setVille($ville);
+        if ($villeId){
+            $ville = $this->villeRepository->find($villeId);
+            $lieu->setVille($ville);
+        }
 
         $form = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            if(!$form->get('ville')->getData()){
-                $this->addFlash('error', 'Le lieu doit avoir une ville');
-                return $this->render('lieu/ajouter.html.twig', [
-                    'form' => $form,
-                ]);
+            if($form->get('enregistrerLieu')->isClicked()){
+                if(!$form->get('ville')->getData()){
+                    $this->addFlash('error', 'Le lieu doit avoir une ville');
+                    return $this->render('lieu/ajouter.html.twig', [
+                        'form' => $form,
+                    ]);
+                }
             }
             $lieu = $form->getData();
             $this->entityManager->persist($lieu);
             $this->entityManager->flush();
-            $this->addFlash('success', 'Le lieu "'.$lieu->getNom().'" a bien été ajouté');
+            $this->addFlash('success', 'Le lieu "'.$lieu->getNom().'" a bien été modifié');
+            if($form->get('ajouterVille')->isClicked()) {
+                return $this->redirectToRoute('app_ville_ajouter', [
+                    'lieuId' => $lieu->getId(),
+                    'sortieId' => $sortieId,
+                ]);
+            }
             return $this->redirectToRoute('app_sortie_modifier', [
                 'sortieId' => $sortieId,
                 'lieuId' => $lieu->getId(),

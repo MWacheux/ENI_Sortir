@@ -70,13 +70,13 @@ class SortieType extends AbstractType
             ->add('ajouterLieu', SubmitType::class, array(
                 'label' => 'Ajouter un lieu',
                 'attr' => [
-                    'class' => 'btn btn-dark mb-3',
+                    'class' => 'btn btn-dark',
                 ],
             ))
             ->add('enregistrerSortie', SubmitType::class, array(
                 'label' => 'Enregistrer',
                 'attr' => [
-                    'class' => 'btn btn-dark',
+                    'class' => 'btn btn-dark  mt-3',
                 ],
             ))
 

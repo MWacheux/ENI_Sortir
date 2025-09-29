@@ -150,11 +150,15 @@ final class SortieController extends AbstractController
         if ($sortie->getParticipants()->contains($participant)) {
             //se désinscrire :
             $sortie->removeParticipant($participant);
-            $this->addFlash('success', 'La sortie "' . $sortie->getNom() . '" vous êtes bien désinscrit de la sortie');
+            $this->addFlash('success', 'Vous êtes bien désinscrit de la sortie ' . $sortie->getNom());
         } else {
+            if ($sortie->getParticipants()->count() >= $sortie->getNbInscriptionsMax()) {
+                $this->addFlash('error', 'La sortie "' . $sortie->getNom() . '" n\'a plus de place disponible');
+                return $this->redirectToRoute('app_sortie_lister');
+            }
             //inscrire l'utilisateur
             $sortie->addParticipant($participant);
-            $this->addFlash('success', 'La sortie "' . $sortie->getNom() . '" vous êtes bien inscrit à la sortie');
+            $this->addFlash('success', 'Vous êtes bien inscrit à la sortie ' . $sortie->getNom());
         }
         // sauvegarde le site en base de donnée
         $this->entityManager->persist($sortie);
@@ -168,7 +172,7 @@ final class SortieController extends AbstractController
     public function modifier(Request $request, int $sortieId, ?int $lieuId): Response
     {
         $sortie = $this->sortieRepository->find($sortieId);
-        if ($sortie->getEtat()->getLibelle() !== EtatEnum::OUVERTE->value){
+        if (!($sortie->getEtat()->getLibelle() === EtatEnum::OUVERTE->value or $sortie->getEtat()->getLibelle() === EtatEnum::CREEE->value)){
             $this->addFlash('error', 'La sortie ne peut pas être modifiée');
             return $this->redirectToRoute('app_sortie_lister');
         }
@@ -187,6 +191,29 @@ final class SortieController extends AbstractController
         $form->handleRequest($request);
         // test si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
+            if($form->get('ajouterLieu')->isClicked()){
+                return $this->redirectToRoute('app_lieu_ajouter', [
+                    'sortieId' => $sortie->getId(),
+                ]);
+            }
+            if(!$form->get('lieu')->getData()){
+                $this->addFlash('error', 'La sortie doit avoir un lieu');
+                return $this->render('sortie/ajouter.html.twig', [
+                    'sortieform' => $form,
+                ]);
+            }else{
+                if (!$form->get('lieu')->getData()->getVille()) {
+                    $this->addFlash('error', 'Le lieu doit avoir une ville');
+                    return $this->redirectToRoute('app_lieu_modifier', [
+                        'sortieId' => $sortie->getId(),
+                        'lieuId' => $form->get('lieu')->getData()->getId(),
+                        'villeId' => 0
+                    ]);
+                }
+            }
+            if ($sortie->getEtat()->getLibelle() === EtatEnum::CREEE->value){
+                $sortie->setEtat($this->etatRepository->findOneBy(['libelle' => EtatEnum::OUVERTE->value]));
+            }
             // sauvegarde le site en base de donnée
             $this->entityManager->persist($sortie);
             // maj en base de données

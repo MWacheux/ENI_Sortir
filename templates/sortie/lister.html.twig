@@ -62,6 +62,9 @@
                                     </p>
                                 </div>
                                 <p class="card-text text-muted">{{ sortie.dateHeureDebut|date('d/m/Y H:i') }} - {{ sortie.organisateur.prenom|capitalize }} {{ sortie.organisateur.nom|upper }}</p>
+                                {% if sortie.lieu %}
+                                    <p class="card-text text-muted">{{ sortie.lieu.rue }} à {{ sortie.lieu.ville.nom }}</p>
+                                {% endif %}
                                 <p class="card-text">
                                     {{ sortie.infosSortie }}
                                 </p>
@@ -73,10 +76,12 @@
                                                 Se désinscrire
                                             </a>
                                         {% else %}
+                                            {% if sortie.participants|length < sortie.nbinscriptionsmax %}
                                             <a href="{{ path('app_sortie_toggleinscription', {id: sortie.id}) }}"
                                                class="btn btn-dark">
                                                 S'inscrire
                                             </a>
+                                            {% endif %}
                                         {% endif %}
                                         {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and sortie.organisateur == app.user) %}
                                             <a href="{{ path('app_sortie_annuler', {sortie : sortie.id}) }}" class="btn btn-outline-danger">Annuler</a>
