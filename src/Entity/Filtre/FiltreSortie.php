@@ -21,4 +21,5 @@ class FiltreSortie
     public ?bool $isOrganisateur = null;
     public ?bool $isInscrit = null;
     public ?bool $isPassee = null;
+    public ?bool $isOrganisateurAndCreee = null;
 }

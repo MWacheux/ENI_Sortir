@@ -47,21 +47,28 @@ class FiltreSortieType extends AbstractType
                 'required' => false,
             ])
             ->add('isOrganisateur', CheckboxType::class, [
-                'label' => 'Sortie dont je suis l\'organisatrice/teur',
+                'label' => 'Seulement sortie dont je suis l\'organisatrice/teur',
                 'attr' => [
                     'class' => 'form-check-input',
                 ],
                 'required' => false,
             ])
             ->add('isInscrit', CheckboxType::class, [
-                'label' => 'Sortie dont je suis inscrit',
+                'label' => 'Seulement sortie dont je suis inscrit',
                 'attr' => [
                     'class' => 'form-check-input',
                 ],
                 'required' => false,
             ])
             ->add('isPassee', CheckboxType::class, [
-                'label' => 'Sortie passées',
+                'label' => 'Seulement sortie passées',
+                'attr' => [
+                    'class' => 'form-check-input',
+                ],
+                'required' => false,
+            ])
+            ->add('isOrganisateurAndCreee', CheckboxType::class, [
+                'label' => 'Inclure mes sorties en brouillon',
                 'attr' => [
                     'class' => 'form-check-input',
                 ],
