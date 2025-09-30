@@ -7,9 +7,12 @@
     <div class="card">
         <h5 class="card-header">{{ form.vars.data.id ? 'Modifier' : 'Ajouter' }} une ville</h5>
         <div class="card-body">
-            {{ form_row(form.nom) }}
-            {{ form_row(form.codePostal) }}
-            <button type="submit" class="btn btn-success mt-3">Ajouter</button>
+            <div data-controller="commune">
+                {{ form_row(form.nom) }}
+                <ul data-commune-target="results" class="cursor-pointer"></ul>
+                {{ form_row(form.codePostal) }}
+                <button type="submit" class="btn btn-success mt-3" data-commune-target="bouton">Ajouter</button>
+            </div>
         </div>
     </div>
     {{ form_end(form) }}

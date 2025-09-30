@@ -22,8 +22,18 @@ final class LieuController extends AbstractController
     ) {
     }
 
+    #[Route('/')]
+    public function lister(): Response
+    {
+        $lieux = $this->lieuRepository->findAll();
+
+        return $this->render('lieu/lister.html.twig', [
+            'lieux' => $lieux,
+        ]);
+    }
+
     #[Route('/ajouter/{sortieId}')]
-    public function ajouter(Request $request, int $sortieId): Response
+    public function ajouter(Request $request, ?int $sortieId): Response
     {
         $lieu = new Lieu();
         $form = $this->createForm(LieuType::class, $lieu);
@@ -50,6 +60,10 @@ final class LieuController extends AbstractController
                     'lieuId' => $lieu->getId(),
                     'sortieId' => $sortieId,
                 ]);
+            }
+
+            if (0 === $sortieId) {
+                return $this->redirectToRoute('app_lieu_lister');
             }
 
             return $this->redirectToRoute('app_sortie_modifier', [
@@ -96,6 +110,10 @@ final class LieuController extends AbstractController
                 ]);
             }
 
+            if (0 === $sortieId) {
+                return $this->redirectToRoute('app_lieu_lister');
+            }
+
             return $this->redirectToRoute('app_sortie_modifier', [
                 'sortieId' => $sortieId,
                 'lieuId' => $lieu->getId(),
@@ -105,5 +123,20 @@ final class LieuController extends AbstractController
         return $this->render('lieu/ajouter.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('/supprimer/{lieu}')]
+    public function supprimer(?Lieu $lieu): Response
+    {
+        if ($lieu) {
+            $this->entityManager->remove($lieu);
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Le lieu "'.$lieu->getNom().'" a bien été supprimer');
+
+            return $this->redirectToRoute('app_lieu_lister');
+        }
+        $this->addFlash('error', 'Le lieu n\'existe pas');
+
+        return $this->redirectToRoute('app_lieu_lister');
     }
 }

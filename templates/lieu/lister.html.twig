@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Site{% endblock %}
+
+{% block body %}
+    <a href="{{ path('app_lieu_ajouter', {sortieId : 0}) }}" class="btn btn-success">Ajouter un lieu</a>
+    <div class="row mt-3">
+        {% for lieu in lieux %}
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ lieu.nom }}</h5>
+                        <p class="card-text"></p>
+                        <a href="{{ path('app_lieu_modifier', {'lieuId' : lieu.id, 'sortieId' : 0, 'villeId': 0}) }}" class="btn btn-warning">Modifier</a>
+                        <a href="{{ path('app_lieu_supprimer', {'lieu' : lieu.id}) }}" class="btn btn-danger">Supprimer</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

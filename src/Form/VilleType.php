@@ -16,11 +16,14 @@ class VilleType extends AbstractType
         $builder
             ->add('nom', TextType::class, [
                 'attr' => [
+                    'data-commune-target' => 'input',
+                    'data-action' => 'input->commune#search',
                     'class' => 'form-control',
                 ],
             ])
             ->add('codePostal', IntegerType::class, [
                 'attr' => [
+                    'data-commune-target' => 'codepostal',
                     'class' => 'form-control',
                 ],
             ])

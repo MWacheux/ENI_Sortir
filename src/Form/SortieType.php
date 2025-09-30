@@ -33,7 +33,7 @@ class SortieType extends AbstractType
                 ],
             ])
             ->add('dateLimiteInscription', DateTimeType::class, [
-                'label' => 'Date limite pour s\'inscription',
+                'label' => 'Date limite pour s\'inscrire',
                 'attr' => [
                     'class' => 'form-control',
                 ],
