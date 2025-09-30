@@ -151,4 +151,21 @@ final class ParticipantController extends AbstractController
 
         return $this->redirectToRoute('app_participant_lister');
     }
+
+    #[Route('/themesombre')]
+    public function themeSombre(): Response
+    {
+        $utilisateur = $this->getUser();
+        if ($utilisateur->isThemeSombre()) {
+            $utilisateur->setThemeSombre(false);
+            $this->addFlash('success', 'Thème sombre désactivé');
+        } else {
+            $utilisateur->setThemeSombre(true);
+            $this->addFlash('success', 'Thème sombre activé');
+        }
+        $this->em->persist($utilisateur);
+        $this->em->flush();
+
+        return $this->redirectToRoute('app_participant_monprofil');
+    }
 }

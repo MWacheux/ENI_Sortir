@@ -7,7 +7,7 @@ import './bootstrap.js';
  */
 import './assets_template/fonts/boxicons.css';
 import './assets_template/css/core.css';
-import './assets_template/css/theme-default.css';
+// import './assets_template/css/theme-default.css';
 import './assets_template/css/demo.css';
 import './assets_template/libs/perfect-scrollbar/perfect-scrollbar.css';
 import './assets_template/js/helpers.js';

@@ -76,6 +76,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
 
+    #[ORM\Column(nullable: false)]
+    private ?bool $themeSombre = false;
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
@@ -300,6 +303,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhoto(?string $photo): static
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function isThemeSombre(): ?bool
+    {
+        return $this->themeSombre;
+    }
+
+    public function setThemeSombre(bool $themeSombre): static
+    {
+        $this->themeSombre = $themeSombre;
 
         return $this;
     }

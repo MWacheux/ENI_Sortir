@@ -11,6 +11,11 @@
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
+        {% if app.user.themeSombre %}
+            <link rel="stylesheet" href="{{ asset('assets_template/css/theme-dark.css') }}" class="template-customizer-theme-css" />
+        {% else %}
+            <link rel="stylesheet" href="{{ asset('assets_template/css/theme-default.css') }}" class="template-customizer-theme-css" />
+        {% endif %}
     </head>
     <body>
         <div class="layout-wrapper layout-content-navbar">
