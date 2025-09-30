@@ -63,41 +63,107 @@ final class SortieController extends AbstractController
     {
         // creation de l'instance de sortie pour le formulaire
         $sortie = new Sortie();
+
+        return $this->form($sortie, $request);
+        // TODO A SUP SEULMENET POUR LES TEST
+        //        $sortie->setNom('Voiture');
+        //        $sortie->setInfosSortie('Sortie en voiture avec une lotus');
+        //        $sortie->setDateHeureDebut((new \DateTime('now'))->add(new \DateInterval('P2D')));
+        //        $sortie->setDateLimiteInscription((new \DateTime('now'))->add(new \DateInterval('P1D')));
+        //        $sortie->setNbInscriptionsMax(4);
+        //        $sortie->setDuree(60);
+    }
+
+    #[Route('/modifier/{sortieId}')]
+    public function modifier(Request $request, int $sortieId): Response
+    {
+        $sortie = $this->sortieRepository->find($sortieId);
+        if (!($sortie->getEtat()->getLibelle() === EtatEnum::OUVERTE->value or $sortie->getEtat()->getLibelle() === EtatEnum::CREEE->value)) {
+            $this->addFlash('error', 'La sortie ne peut pas être modifiée');
+
+            return $this->redirectToRoute('app_sortie_lister');
+        }
+        if ($sortie->getOrganisateur() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Vous avez pas les permissions');
+
+            return $this->redirectToRoute('app_sortie_lister');
+        }
+
+        return $this->form($sortie, $request);
+    }
+
+    private function form(Sortie $sortie, Request $request)
+    {
         // création du formulaire
         $form = $this->createForm(SortieType::class, $sortie);
         // gestion des données de la request
         $form->handleRequest($request);
         // test si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
-            $etat = $this->etatRepository->findOneBy(['libelle' => EtatEnum::CREEE]);
-            $sortie->setEtat($etat);
+            // definie l'utilisateur de connecter en tant qu'organisateur
             $sortie->setOrganisateur($this->getUser());
+            // definie le site de ratachement en fonction de l'organisateur
             $sortie->setSite($this->getUser()->getSite());
-
+            // si bouton enregister cliqué
             if ($form->get('enregistrerSortie')->isClicked()) {
-                $etat = $this->etatRepository->findOneBy(['libelle' => EtatEnum::OUVERTE]);
-                $sortie->setEtat($etat);
                 if (!$form->get('lieu')->getData()) {
-                    $this->addFlash('error', 'La sortie doit avoir un lieu');
-
-                    return $this->render('sortie/ajouter.html.twig', [
-                        'sortieform' => $form,
-                    ]);
+                    // récupère l'état créée
+                    $etat = $this->etatRepository->findOneBy(['libelle' => EtatEnum::CREEE]);
+                    $newlieuData = $form->get('newlieu')->getData();
+                    // Vérifie si les champs sont rempli dans newlieu
+                    if ($newlieuData && (null !== $newlieuData->getNom() && '' !== trim($newlieuData->getNom()))
+                        && (null !== $newlieuData->getRue() && '' !== trim($newlieuData->getRue()))
+                        && (null !== $newlieuData->getLatitude() && '' !== trim($newlieuData->getLatitude()))
+                        && (null !== $newlieuData->getLongitude() && '' !== trim($newlieuData->getLongitude()))) {
+                        $newVilleData = $form->get('newlieu')->get('newville')->getData();
+                        $sortie->setLieu($newlieuData);
+                        if ($newVilleData && (null !== $newVilleData->getNom() && '' !== trim($newVilleData->getNom()))
+                            && (null !== $newVilleData->getCodePostal() && '' !== trim($newVilleData->getCodePostal()))) {
+                            $sortie->getLieu()->setVille($newVilleData);
+                        }
+                    }
                 }
             }
+            // si le bouton publier cliqué
+            if ($form->get('publierSortie')->isClicked()) {
+                if (!$form->get('lieu')->getData()) {
+                    $newlieuData = $form->get('newlieu')->getData();
+                    // Vérifie si les champs sont rempli dans newlieu
+                    if ($newlieuData && (null !== $newlieuData->getNom() && '' !== trim($newlieuData->getNom()))
+                        && (null !== $newlieuData->getRue() && '' !== trim($newlieuData->getRue()))
+                        && (null !== $newlieuData->getLatitude() && '' !== trim($newlieuData->getLatitude()))
+                        && (null !== $newlieuData->getLongitude() && '' !== trim($newlieuData->getLongitude()))) {
+                        $newVilleData = $form->get('newlieu')->get('newville')->getData();
+                        if ($newVilleData && (null !== $newVilleData->getNom() && '' !== trim($newVilleData->getNom()))
+                            && (null !== $newVilleData->getCodePostal() && '' !== trim($newVilleData->getCodePostal()))) {
+                            $sortie->setLieu($newlieuData);
+                            $sortie->getLieu()->setVille($newVilleData);
+                        } else {
+                            $this->addFlash('error', 'La nouvelle ville dois être entièrement complété');
+
+                            return $this->render('sortie/ajouter.html.twig', [
+                                'sortieform' => $form,
+                            ]);
+                        }
+                    } else {
+                        $this->addFlash('error', 'Le nouveau lieu dois être entièrement complété');
+                        return $this->render('sortie/ajouter.html.twig', [
+                            'sortieform' => $form,
+                        ]);
+                    }
+                }
+
+                // récupère l'état ouverte
+                $etat = $this->etatRepository->findOneBy(['libelle' => EtatEnum::OUVERTE]);
+            }
+            // definie l'etat à la sortie
+            $sortie->setEtat($etat);
             // sauvegarde le site en base de donnée
             $this->entityManager->persist($sortie);
             // maj en base de données
             $this->entityManager->flush();
-
             // ajoute un message de success
             $this->addFlash('success', 'La sortie "'.$sortie->getNom().'" a bien été enregistrée');
-
-            if ($form->get('ajouterLieu')->isClicked()) {
-                return $this->redirectToRoute('app_lieu_ajouter', [
-                    'sortieId' => $sortie->getId(),
-                ]);
-            }
 
             return $this->redirectToRoute('app_sortie_lister');
         }
@@ -168,71 +234,5 @@ final class SortieController extends AbstractController
         $this->entityManager->flush();
 
         return $this->redirectToRoute('app_sortie_lister');
-    }
-
-    #[Route(['/modifier/{sortieId}', '/modifier/{sortieId}/{lieuId}'])]
-    public function modifier(Request $request, int $sortieId, ?int $lieuId): Response
-    {
-        $sortie = $this->sortieRepository->find($sortieId);
-        if (!($sortie->getEtat()->getLibelle() === EtatEnum::OUVERTE->value or $sortie->getEtat()->getLibelle() === EtatEnum::CREEE->value)) {
-            $this->addFlash('error', 'La sortie ne peut pas être modifiée');
-
-            return $this->redirectToRoute('app_sortie_lister');
-        }
-        if ($sortie->getOrganisateur() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('error', 'Vous avez pas les permissions');
-
-            return $this->redirectToRoute('app_sortie_lister');
-        }
-        if ($lieuId) {
-            $lieu = $this->lieuRepository->find($lieuId);
-            $sortie->setLieu($lieu);
-        }
-
-        // création du formulaire
-        $form = $this->createForm(SortieType::class, $sortie);
-        // gestion des données de la request
-        $form->handleRequest($request);
-        // test si le formulaire est soumis et valide
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('ajouterLieu')->isClicked()) {
-                return $this->redirectToRoute('app_lieu_ajouter', [
-                    'sortieId' => $sortie->getId(),
-                ]);
-            }
-            if (!$form->get('lieu')->getData()) {
-                $this->addFlash('error', 'La sortie doit avoir un lieu');
-
-                return $this->render('sortie/ajouter.html.twig', [
-                    'sortieform' => $form,
-                ]);
-            } else {
-                if (!$form->get('lieu')->getData()->getVille()) {
-                    $this->addFlash('error', 'Le lieu doit avoir une ville');
-
-                    return $this->redirectToRoute('app_lieu_modifier', [
-                        'sortieId' => $sortie->getId(),
-                        'lieuId' => $form->get('lieu')->getData()->getId(),
-                        'villeId' => 0,
-                    ]);
-                }
-            }
-            if ($sortie->getEtat()->getLibelle() === EtatEnum::CREEE->value) {
-                $sortie->setEtat($this->etatRepository->findOneBy(['libelle' => EtatEnum::OUVERTE->value]));
-            }
-            // sauvegarde le site en base de donnée
-            $this->entityManager->persist($sortie);
-            // maj en base de données
-            $this->entityManager->flush();
-
-            // ajoute un message de success
-            $this->addFlash('success', 'La sortie "'.$sortie->getNom().'" a bien été enregistrée');
-
-            return $this->redirectToRoute('app_sortie_lister');
-        }
-
-        return $this->render('sortie/ajouter.html.twig', [
-            'sortieform' => $form,
-        ]);
     }
 }

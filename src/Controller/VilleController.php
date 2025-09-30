@@ -30,8 +30,8 @@ final class VilleController extends AbstractController
         ]);
     }
 
-    #[Route('/ajouter/{lieuId}/{sortieId}')]
-    public function ajouter(Request $request, ?int $sortieId, ?int $lieuId): Response
+    #[Route('/ajouter')]
+    public function ajouter(Request $request): Response
     {
         $ville = new Ville();
         $form = $this->createForm(VilleType::class, $ville);
@@ -42,15 +42,7 @@ final class VilleController extends AbstractController
             $this->entityManager->persist($lieu);
             $this->entityManager->flush();
             $this->addFlash('success', 'La ville "'.$ville->getNom().'" a bien été ajoutée');
-            if (0 === $lieuId) {
-                return $this->redirectToRoute('app_ville_lister');
-            }
-
-            return $this->redirectToRoute('app_lieu_modifier', [
-                'sortieId' => $sortieId,
-                'lieuId' => $lieuId,
-                'villeId' => $ville->getId(),
-            ]);
+            return $this->redirectToRoute('app_ville_lister');
         }
 
         return $this->render('ville/ajouter.html.twig', [
@@ -58,8 +50,8 @@ final class VilleController extends AbstractController
         ]);
     }
 
-    #[Route('/modifier/{villeId}/{lieuId}/{sortieId}')]
-    public function modifier(Request $request, ?int $villeId, ?int $sortieId, ?int $lieuId): Response
+    #[Route('/modifier/{villeId}')]
+    public function modifier(Request $request, ?int $villeId): Response
     {
         $ville = $this->repository->find($villeId);
         $form = $this->createForm(VilleType::class, $ville);
@@ -70,15 +62,7 @@ final class VilleController extends AbstractController
             $this->entityManager->persist($lieu);
             $this->entityManager->flush();
             $this->addFlash('success', 'La ville "'.$ville->getNom().'" a bien été modifiée');
-            if (0 === $lieuId) {
-                return $this->redirectToRoute('app_ville_lister');
-            }
-
-            return $this->redirectToRoute('app_lieu_modifier', [
-                'sortieId' => $sortieId,
-                'lieuId' => $lieuId,
-                'villeId' => $ville->getId(),
-            ]);
+            return $this->redirectToRoute('app_ville_lister');
         }
 
         return $this->render('ville/ajouter.html.twig', [
@@ -94,7 +78,7 @@ final class VilleController extends AbstractController
             $this->entityManager->flush();
             $this->addFlash('success', 'La ville "'.$ville->getNom().'" a bien été supprimer');
 
-            return $this->redirectToRoute('app_lieu_lister');
+            return $this->redirectToRoute('app_ville_lister');
         }
         $this->addFlash('error', 'La ville n\'existe pas');
 

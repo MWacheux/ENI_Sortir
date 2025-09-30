@@ -11,7 +11,7 @@
                 {{ form_row(form.nom) }}
                 <ul data-commune-target="results" class="cursor-pointer"></ul>
                 {{ form_row(form.codePostal) }}
-                <button type="submit" class="btn btn-success mt-3" data-commune-target="bouton">Ajouter</button>
+                <button type="submit" class="btn btn-success mt-3" data-commune-target="bouton">{{ form.vars.data.id ? 'Modifier' : 'Ajouter' }}</button>
             </div>
         </div>
     </div>

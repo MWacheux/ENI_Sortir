@@ -6,17 +6,18 @@
     {{ form_start(form) }}
     <div class="card">
         <h5 class="card-header">{{ form.vars.data.id ? 'Modifier' : 'Ajouter' }} un lieu</h5>
-        <div class="card-body">
+        <div class="card-body" data-controller="sortie">
             {{ form_row(form.nom) }}
             {{ form_row(form.rue) }}
             {{ form_row(form.latitude) }}
             {{ form_row(form.longitude) }}
-            {{ form_label(form.ville) }}
-            <div class="input-group mb-3">
-                {{ form_widget(form.ville) }}
-                {{ form_widget(form.ajouterVille) }}
+            {{ form_row(form.ville) }}
+            <div data-controller="commune" data-sortie-target="divNewVille" class="">
+                {{ form_row(form.newville.nom) }}
+                <ul data-commune-target="results" class="cursor-pointer"></ul>
+                {{ form_row(form.newville.codePostal) }}
             </div>
-            {{ form_row(form.enregistrerLieu) }}
+            <button class="btn btn-dark">Enregister</button>
         </div>
     </div>
     {{ form_end(form) }}

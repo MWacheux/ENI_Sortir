@@ -1,7 +1,7 @@
 import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
-    static targets = ["input", "results", "codepostal", "bouton"]
+    static targets = ["input", "results", "codepostal"]
 
     connect() {
         this.abortController = null
@@ -42,11 +42,8 @@ export default class extends Controller {
 
     displayResults(communes) {
         if (!communes.length) {
-            this.boutonTarget.setAttribute('disabled', '');
             this.resultsTarget.innerHTML = "<li>Aucune commune trouvée.</li>"
             return
-        }else{
-            this.boutonTarget.removeAttribute('disabled');
         }
 
         this.resultsTarget.innerHTML = communes.map(commune => `
