@@ -36,6 +36,7 @@ final class LieuController extends AbstractController
     public function ajouter(Request $request): Response
     {
         $lieu = new Lieu();
+
         return $this->form($lieu, $request);
     }
 
@@ -43,6 +44,7 @@ final class LieuController extends AbstractController
     public function modifier(Request $request, int $lieuId): Response
     {
         $lieu = $this->lieuRepository->find($lieuId);
+
         return $this->form($lieu, $request);
     }
 
@@ -51,7 +53,7 @@ final class LieuController extends AbstractController
         $form = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$form->get('ville')->getData()){
+            if (!$form->get('ville')->getData()) {
                 // Vérifie si les champs sont rempli dans newVille
                 $newVilleData = $form->get('newville')->getData();
                 if ($newVilleData && (null !== $newVilleData->getNom() && '' !== trim($newVilleData->getNom()))
@@ -62,8 +64,10 @@ final class LieuController extends AbstractController
             $this->entityManager->persist($lieu);
             $this->entityManager->flush();
             $this->addFlash('success', 'Le lieu "'.$lieu->getNom().'" a bien été enregister');
+
             return $this->redirectToRoute('app_lieu_lister');
         }
+
         return $this->render('lieu/ajouter.html.twig', [
             'form' => $form,
         ]);
