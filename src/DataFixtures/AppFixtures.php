@@ -54,6 +54,17 @@ class AppFixtures extends Fixture
             ->setRoles(['ROLE_USER'])
             ->setTelephone('0123456789');
         $manager->persist($maiwenn);
+        // Creation d'un user classique
+        $zohera = new Participant();
+        $zohera->setNom('EL Fakhadi')
+            ->setPrenom('Zohera')
+            ->setSite($nantes)
+            ->setActif(true)
+            ->setEmail('zozo@test.fr')
+            ->setPassword('$2y$13$J/3BoAyb0/O3nGBrf04U6.1vMfrjsl/2Wc0xaAJ9YpS2xNxpKucx2')
+            ->setRoles(['ROLE_USER'])
+            ->setTelephone('0123456789');
+        $manager->persist($zohera);
         $noa = new Participant();
         $noa->setNom('HERVIEU')
             ->setPrenom('Noä')
