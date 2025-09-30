@@ -59,23 +59,35 @@ class SortieType extends AbstractType
             ])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
-                'choice_label' => 'nom',
+                'choice_label' => fn(Lieu $lieu) => $lieu->getNom().' ('.$lieu->getVille()->getNom().')',
+                'placeholder' => '<Nouveau lieu>',
+                'required' => false,
+                'attr' => [
+                    'data-sortie-target' => 'dropdownLieu',
+                    'data-action' => 'input->sortie#toggleShow',
+                    'placeholder' => 'ville organisatrice',
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('newlieu', LieuType::class, [
+                'label' => 'Nouveau lieu',
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'ville organisatrice',
                     'class' => 'form-control',
                 ],
+                'mapped' => false,
             ])
-            ->add('ajouterLieu', SubmitType::class, [
-                'label' => 'Ajouter un lieu',
+            ->add('enregistrerSortie', SubmitType::class, [
+                'label' => 'Enregistrer en brouillon',
                 'attr' => [
                     'class' => 'btn btn-dark',
                 ],
             ])
-            ->add('enregistrerSortie', SubmitType::class, [
-                'label' => 'Enregistrer',
+            ->add('publierSortie', SubmitType::class, [
+                'label' => 'Publier',
                 'attr' => [
-                    'class' => 'btn btn-dark  mt-3',
+                    'class' => 'btn btn-success',
                 ],
             ])
 

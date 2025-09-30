@@ -38,7 +38,7 @@ class Sortie
     #[Assert\Length(min: 2, max: 250, minMessage: 'La description doit comporter strictemnt plus de 2 caractères.', maxMessage: 'La description doit comporter 250 caractères ou moins.')]
     private ?string $infosSortie = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sorties')]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Lieu $lieu = null;
 
