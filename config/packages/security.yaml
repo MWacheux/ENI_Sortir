@@ -46,6 +46,7 @@ security:
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/mot-de-passe-oublie, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: IS_AUTHENTICATED }
         - { path: ^/profil, roles: ROLE_USER }
 

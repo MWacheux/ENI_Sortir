@@ -5,23 +5,27 @@ namespace App\Services;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Psr\Log\LoggerInterface;
 
 class MailjetMailerService
 {
-    private $mailer;
+    private MailerInterface $mailer;
+    private LoggerInterface $logger;
 
-    public function __construct(MailerInterface $mailer)
+
+    public function __construct(MailerInterface $mailer, LoggerInterface $logger)
     {
         $this->mailer = $mailer;
+        $this->logger = $logger;
     }
 
     /**
      * Envoie un email pour la réinitialisation du mot de passe
      *
-     * @param string $email      L'adresse email du destinataire
-     * @param string $nom        Le nom ou pseudo du destinataire
+     * @param string $email L'adresse email du destinataire
+     * @param string $nom Le nom ou pseudo du destinataire
      * @param string $templateId L'ID du template (non utilisé ici mais conservé si besoin)
-     * @param array  $variables  Les variables à passer au template Twig
+     * @param array $variables Les variables à passer au template Twig
      *
      * @return bool Retourne true si l'email a été envoyé
      */
@@ -40,8 +44,24 @@ class MailjetMailerService
             ->htmlTemplate('reset_password/email.html.twig')    // Template Twig
             ->context($context);                                // Variables pour le template
 
-        $this->mailer->send($emailMessage); // Envoi de l'email
+        // Log avant l’envoi
+        $this->logger->info('📧 Envoi d\'un mail de réinitialisation', [
+            'to' => $email,
+            'reset_url' => $lienReset
+        ]);
 
-        return true; // Retourne vrai si l'email est envoyé
+
+             $this->logger->info('✅ Mail envoyé (vérifie Papercut sur localhost:1025)');
+
+        // Envoi du mail
+        try {
+            $this->mailer->send($emailMessage);
+            $this->logger->info("✅ Mail envoyé à $email, vérifie Papercut Desktop.");
+            return true;
+        } catch (\Exception $e) {
+            $this->logger->error("❌ Échec de l'envoi du mail : " . $e->getMessage());
+            return false;
+        }
+
     }
 }
