@@ -22,17 +22,17 @@ class RegistrationFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                ]
+                ],
             ])
             ->add('nom', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                ]
+                ],
             ])
             ->add('prenom', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                ]
+                ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,

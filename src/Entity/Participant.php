@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -22,6 +23,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\Email(message: 'Cela doit être une adresse email valide')]
+    #[Assert\Length(min: 8, max: 180)]
     private ?string $email = null;
 
     /**
@@ -37,12 +40,15 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 80)]
+    #[Assert\Length(min: 2, max: 80, minMessage: 'Le nom doit avoir minimum 2 caratères', maxMessage: 'Le nom ne peux pas dépsser 80 caractère')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 80)]
+    #[Assert\Length(min: 2, max: 80, minMessage: 'Le prénom doit avoir minimum 2 caratères', maxMessage: 'Le prénom ne peux pas dépsser 80 caractère')]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 10, nullable: true)]
+    #[Assert\Length(min: 10, max: 10, exactMessage: 'Le numéro de téléphone doit contenir 10 chiffres')]
     private ?string $telephone = null;
 
     #[ORM\Column(nullable: true)]
@@ -69,6 +75,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
+
+    #[ORM\Column(nullable: false)]
+    private ?bool $themeSombre = false;
 
     public function __construct()
     {
@@ -294,6 +303,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhoto(?string $photo): static
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function isThemeSombre(): ?bool
+    {
+        return $this->themeSombre;
+    }
+
+    public function setThemeSombre(bool $themeSombre): static
+    {
+        $this->themeSombre = $themeSombre;
 
         return $this;
     }

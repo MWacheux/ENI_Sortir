@@ -7,18 +7,22 @@
     {{ form_start(sortieform) }}
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h1>Créer une sortie</h1>
+                <h1>{{ sortieform.vars.data.id ? 'Modifier' : 'Ajouter' }} une sortie</h1>
                 <a href="{{ path('app_sortie_lister') }}" class="btn btn-dark">Retour</a>
             </div>
             <div class="card-body">
                 {{ form_row(sortieform.nom) }}
+                {{ form_row(sortieform.infosSortie) }}
                 {{ form_row(sortieform.dateHeureDebut) }}
                 {{ form_row(sortieform.dateLimiteInscription) }}
                 {{ form_row(sortieform.nbInscriptionsMax) }}
                 {{ form_row(sortieform.duree) }}
-                {{ form_row(sortieform.lieu) }}
-                {{ form_row(sortieform.infosSortie) }}
-                <button type="submit" class="btn btn-dark">Enregistrer</button>
+                {{ form_label(sortieform.lieu) }}
+                <div class="input-group">
+                    {{ form_widget(sortieform.lieu) }}
+                    {{ form_widget(sortieform.ajouterLieu) }}
+                </div>
+                {{ form_row(sortieform.enregistrerSortie) }}
             </div>
         </div>
     {{ form_end(sortieform) }}

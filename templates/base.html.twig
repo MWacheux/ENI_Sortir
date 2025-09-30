@@ -2,6 +2,7 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Sortir.com{% endblock %}</title>
         <link rel="icon" href="{{ asset("assets_template/img/favicon/favicon.ico") }}">
         {% block stylesheets %}
@@ -10,6 +11,11 @@
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
+        {% if app.user.themeSombre %}
+            <link rel="stylesheet" href="{{ asset('assets_template/css/theme-dark.css') }}" class="template-customizer-theme-css" />
+        {% else %}
+            <link rel="stylesheet" href="{{ asset('assets_template/css/theme-default.css') }}" class="template-customizer-theme-css" />
+        {% endif %}
     </head>
     <body>
         <div class="layout-wrapper layout-content-navbar">
@@ -57,6 +63,14 @@
                                     <i class="menu-icon tf-icons bx bx-building"></i>
                                     <div>Sites</div>
                                 </a>
+                                <a href="{{ path('app_lieu_lister') }}" class="menu-link">
+                                    <i class="menu-icon tf-icons bx bx-current-location"></i>
+                                    <div>Lieu</div>
+                                </a>
+                                <a href="{{ path('app_ville_lister') }}" class="menu-link">
+                                    <i class="menu-icon tf-icons bx bxs-edit-location"></i>
+                                    <div>Villes</div>
+                                </a>
                                 <a href="{{ path('app_participant_lister') }}" class="menu-link">
                                     <i class="menu-icon tf-icons bx bx-user"></i>
                                     <div>Utilisateurs</div>
@@ -82,7 +96,7 @@
                         </div>
                         <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                             <h3 class="text-secondary m-0 fw-semibold ">
-                                {% block titre %}{% endblock %}
+
                             </h3>
                         </div>
 
@@ -95,7 +109,7 @@
                                             {% if app.user.photo is not null %}
                                                 <img src="{{ app.request.scheme }}://{{ app.request.server.get('HTTP_HOST') }}/photo/{{ app.user.photo }}" alt="ma photo de profil" class="rounded-circle" style="object-fit: cover;" />
                                             {% else %}
-                                                <i class="bx bxs-user d-flex justify-content-center align-items-center bg-dark rounded-4"></i>
+                                                <i class="bx bxs-user d-flex justify-content-center align-items-center bg-dark rounded-5"></i>
                                             {% endif %}
                                         </div>
                                     </a>
@@ -108,7 +122,7 @@
                                                             {% if app.user.photo is not null %}
                                                                 <img src="{{ app.request.scheme }}://{{ app.request.server.get('HTTP_HOST') }}/photo/{{ app.user.photo }}" alt="ma photo de profil" class="rounded-circle" style="object-fit: cover;" />
                                                             {% else %}
-                                                                <i class="bx bxs-user d-flex justify-content-center align-items-center bg-dark rounded-4"></i>
+                                                                <i class="bx bxs-user d-flex justify-content-center align-items-center bg-dark rounded-5"></i>
                                                             {% endif %}
                                                         </div>
                                                     </div>

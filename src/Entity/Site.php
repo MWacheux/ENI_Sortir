@@ -18,7 +18,8 @@ class Site
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
+    #[Assert\Length(min: 2, max: 50, minMessage: 'Le nom doit comporter strictemnt plus de 2 caractères.', maxMessage: 'Le nom doit comporter 50 caractères ou moins.')]
     private ?string $nom = null;
 
     /**

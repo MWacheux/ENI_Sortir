@@ -2,18 +2,19 @@
 
 namespace App\Services;
 
+use App\Entity\Etat;
+use App\Entity\Sortie;
 use App\Enum\EtatEnum;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Workflow\Marking;
 use Symfony\Component\Workflow\MarkingStore\MarkingStoreInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Sortie;
-use App\Entity\Etat;
 
 class EtatMarkingStoreService implements MarkingStoreInterface
 {
     public function __construct(
-        private EntityManagerInterface $em
-    ) {}
+        private EntityManagerInterface $em,
+    ) {
+    }
 
     public function getMarking(object $subject): Marking
     {

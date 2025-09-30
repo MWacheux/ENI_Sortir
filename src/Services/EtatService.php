@@ -11,9 +11,8 @@ class EtatService
 {
     public function __construct(
         private readonly Registry $registry,
-        private readonly EntityManagerInterface $em
-    )
-    {
+        private readonly EntityManagerInterface $em,
+    ) {
     }
 
     public function checkWorkflow(Sortie $sortie)

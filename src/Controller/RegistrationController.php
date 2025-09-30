@@ -21,8 +21,9 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $participant);
         $form->handleRequest($request);
         $participants = $participantRepository->findAll();
-        if (count($participants) != 0){
+        if (0 != count($participants)) {
             $this->addFlash('error', 'La création de compte est désactivée');
+
             return $this->redirectToRoute('app_login');
         }
         if ($form->isSubmitted() && $form->isValid()) {

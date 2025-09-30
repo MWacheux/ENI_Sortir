@@ -20,6 +20,7 @@
             <i class="bx bxs-user"></i>
         {% endif %}
     </div>
-    <button type="submit" class="btn btn-lg btn-primary mt-3">Enregistrer</button>
+    <button type="submit" class="btn btn btn-primary mt-3">Enregistrer</button>
+    <a href="{{ path('app_participant_themesombre') }}" class="btn btn-secondary mt-3">Switch thème sombre</a>
     {{ form_end(form) }}
 {% endblock %}
