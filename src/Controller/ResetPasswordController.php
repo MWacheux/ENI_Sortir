@@ -30,8 +30,8 @@ class ResetPasswordController extends AbstractController
     use ResetPasswordControllerTrait;
 
     public function __construct(
-        private ResetPasswordHelperInterface $resetPasswordHelper,
-        private EntityManagerInterface $entityManager
+        private readonly ResetPasswordHelperInterface $resetPasswordHelper,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -39,7 +39,7 @@ class ResetPasswordController extends AbstractController
      * Affiche le formulaire pour demander la réinitialisation du mot de passe
      */
     #[Route('', name: 'app_demande_mot_de_passe_oublie')]
-    public function request(Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager, MailerInterface $mailer, MailjetMailerService $mailjetMailer, TranslatorInterface $translator): Response
+    public function request(Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager, MailjetMailerService $mailjetMailer, TranslatorInterface $translator): Response
     {
         // Création du formulaire pour demander la réinitialisation du mot de passe
         $form = $this->createForm(ResetPasswordRequestFormType::class);
@@ -62,12 +62,13 @@ class ResetPasswordController extends AbstractController
                 );
 
                 // Envoi de l'email via le service Mailjet
-                $ok = $mailjetMailer->sendEmailForgotPW(
-                    $participant->getEmail(),
-                    $participant->getPseudo() ?? 'Utilisateur',
-                    '7094841', // template ID Mailjet
+                $ok = $mailjetMailer->envoyerEmailMotDePasse(
+                    $participant->getEmail(),                           //Email du destinataire
+                $participant->getPrenom() ?? 'Utilisateur',    // Nom
+                    $lienReset,                                         // l'URL de réinitialisation
+                    '7094841',                                 // Id du template de Mailjet (facultatif)
                     [
-                        'pseudo' => $participant->getPseudo() ?? 'cher utilisateur',
+                        'pseudo' => $participant->getPrenom() ?? 'cher utilisateur',
                         'reset_url' => $lienReset
                     ]
                 );
