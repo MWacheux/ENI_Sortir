@@ -33,8 +33,11 @@ symfony console doctrine:database:create
 ```
 
 ● Lancer les migrations (structure des tables)
-```symfony console doctrine:migrations:migrate
+```
 symfony console make:migratation
+```
+```
+symfony console doctrine:migrations:migrate
 ```
 
 ## 📦 Chargement des données de test (Fixtures)
