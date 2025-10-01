@@ -21,7 +21,7 @@ WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 
 # Installer les dépendances en cacheant le vendor
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress --no-scripts
 
 # Ensuite seulement, copier le reste du code
 COPY . .
@@ -35,4 +35,4 @@ ENV APP_ENV=preprod
 
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+CMD ["sh", "-c", "composer run-script post-install-cmd && apache2-foreground"]
