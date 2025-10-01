@@ -73,4 +73,4 @@ Email : admin@test.fr\
 Mot de passe : password \
 **Utilisateur classique**\
 Email : mwacheux@test.fr\
-Mot de passe : password\
+Mot de passe : azerty
