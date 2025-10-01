@@ -42,7 +42,8 @@ symfony console make:migration
 ```
 symfony console doctrine:migrations:migrate
 ```
-⚠️ En cas d'échec : supprimer les fichiers de migration présents dans le dossier migrations\importés lors du clonage, puis relancer les commandes ci-dessus.
+⚠️ En cas d'échec : supprimer les fichiers de migration présents dans le dossier migrations\
+importés lors du clonage, puis relancer les commandes ci-dessus.
 
 ## 📦 Chargement des données de test (Fixtures)
 Pour remplir la base avec des utilisateurs, sites, villes, lieux et sorties de démonstration, lancer la commande :
