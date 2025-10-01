@@ -38,7 +38,7 @@ symfony console doctrine:database:create
 ```
 symfony console make:migration
 
-● Exécuter la migration :
+2.Exécuter la migration :
 ```
 symfony console doctrine:migrations:migrate
 ```
