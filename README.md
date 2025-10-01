@@ -37,7 +37,7 @@ symfony console doctrine:database:create
 1. Générer la migration :
 ```
 symfony console make:migration
-
+```
 2.Exécuter la migration :
 ```
 symfony console doctrine:migrations:migrate
