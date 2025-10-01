@@ -42,6 +42,7 @@ final class VilleController extends AbstractController
             $this->entityManager->persist($lieu);
             $this->entityManager->flush();
             $this->addFlash('success', 'La ville "'.$ville->getNom().'" a bien été ajoutée');
+
             return $this->redirectToRoute('app_ville_lister');
         }
 
@@ -62,6 +63,7 @@ final class VilleController extends AbstractController
             $this->entityManager->persist($lieu);
             $this->entityManager->flush();
             $this->addFlash('success', 'La ville "'.$ville->getNom().'" a bien été modifiée');
+
             return $this->redirectToRoute('app_ville_lister');
         }
 

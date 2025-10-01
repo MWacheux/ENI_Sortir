@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Form\CsvImportType;
 use App\Form\ProfilType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,6 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/participant')]
@@ -119,12 +123,46 @@ final class ParticipantController extends AbstractController
 
     #[Route('/')]
     #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les permissions')]
-    public function lister(): Response
+    public function lister(Request $request): Response
     {
+        $form = $this->createForm(CsvImportType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
+            $participants = $serializer->decode(file_get_contents($form->get('submitFile')->getData()), 'csv');
+            foreach ($participants as $row) {
+                $participant = new Participant();
+                $participant->setEmail($row['email'] ?? null);
+                $participant->setNom($row['nom'] ?? null);
+                $participant->setPrenom($row['prenom'] ?? null);
+                $participant->setTelephone($row['telephone'] ?? null);
+                $participant->setRoles([$row['roles'] ?? 'ROLE_USER']);
+                $participant->setAdministrateur($row['administrateur'] ?? false);
+                $participant->setActif($row['actif'] ?? true);
+                $participant->setThemeSombre($row['themeSombre'] ?? false);
+                $participant->setPassword('$2y$13$J/3BoAyb0/O3nGBrf04U6.1vMfrjsl/2Wc0xaAJ9YpS2xNxpKucx2'); // hash du mot de passe "azerty"
+
+                try {
+                    $this->em->persist($participant);
+                    $this->em->flush();
+                } catch (\Exception $exception) {
+                    $this->addFlash('error', "L'utilisateur '".$participant->getPrenom().' '.$participant->getNom()."' contient une erreur");
+
+                    return $this->redirectToRoute('app_participant_lister');
+                }
+            }
+
+            $this->addFlash('success', 'Les utilisateurs ont bien été enregistrés');
+
+            return $this->redirectToRoute('app_participant_lister');
+        }
+
         $utilisateurs = $this->participantRepository->findAll();
 
         return $this->render('utilisateur/lister.html.twig', [
             'utilisateurs' => $utilisateurs,
+            'form' => $form,
         ]);
     }
 

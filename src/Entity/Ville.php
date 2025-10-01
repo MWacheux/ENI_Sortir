@@ -23,7 +23,7 @@ class Ville
     private ?string $nom = null;
 
     #[ORM\Column]
-        #[Assert\Length(min: 5, max: 5, exactMessage: 'Le code postal doit avoir 5 chiffres')]
+    #[Assert\Length(min: 5, max: 5, exactMessage: 'Le code postal doit avoir 5 chiffres')]
     private ?int $codePostal = null;
 
     /**

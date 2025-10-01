@@ -37,10 +37,10 @@ class ChangePasswordFormType extends AbstractType
                             'max' => 4096,
                         ]),
                         new PasswordStrength([
-                            'message' => 'Votre mot de passe est trop faible, ajoutez des majuscules, chiffres et caractères spéciaux.'
+                            'message' => 'Votre mot de passe est trop faible, ajoutez des majuscules, chiffres et caractères spéciaux.',
                         ]),
                         new NotCompromisedPassword([
-                            'message' => 'Ce mot de passe a déjà été divulgué lors d’une fuite de données, merci d’en choisir un autre.'
+                            'message' => 'Ce mot de passe a déjà été divulgué lors d’une fuite de données, merci d’en choisir un autre.',
                         ]),
                     ],
                 ],

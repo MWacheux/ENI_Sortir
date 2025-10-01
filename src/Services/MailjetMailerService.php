@@ -2,16 +2,15 @@
 
 namespace App\Services;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
-use Psr\Log\LoggerInterface;
 
 class MailjetMailerService
 {
     private MailerInterface $mailer;
     private LoggerInterface $logger;
-
 
     public function __construct(MailerInterface $mailer, LoggerInterface $logger)
     {
@@ -20,12 +19,12 @@ class MailjetMailerService
     }
 
     /**
-     * Envoie un email pour la réinitialisation du mot de passe
+     * Envoie un email pour la réinitialisation du mot de passe.
      *
-     * @param string $email L'adresse email du destinataire
-     * @param string $nom Le nom ou pseudo du destinataire
+     * @param string $email      L'adresse email du destinataire
+     * @param string $nom        Le nom ou pseudo du destinataire
      * @param string $templateId L'ID du template (non utilisé ici mais conservé si besoin)
-     * @param array $variables Les variables à passer au template Twig
+     * @param array  $variables  Les variables à passer au template Twig
      *
      * @return bool Retourne true si l'email a été envoyé
      */
@@ -47,21 +46,21 @@ class MailjetMailerService
         // Log avant l’envoi
         $this->logger->info('📧 Envoi d\'un mail de réinitialisation', [
             'to' => $email,
-            'reset_url' => $lienReset
+            'reset_url' => $lienReset,
         ]);
 
-
-             $this->logger->info('✅ Mail envoyé (vérifie Papercut sur localhost:1025)');
+        $this->logger->info('✅ Mail envoyé (vérifie Papercut sur localhost:1025)');
 
         // Envoi du mail
         try {
             $this->mailer->send($emailMessage);
             $this->logger->info("✅ Mail envoyé à $email, vérifie Papercut Desktop.");
+
             return true;
         } catch (\Exception $e) {
-            $this->logger->error("❌ Échec de l'envoi du mail : " . $e->getMessage());
+            $this->logger->error("❌ Échec de l'envoi du mail : ".$e->getMessage());
+
             return false;
         }
-
     }
 }
