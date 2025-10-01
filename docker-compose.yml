@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  # sortir (Postgres)
+  sortir-db:
+    image: postgres:15
+    container_name: sortir_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sortir
+      POSTGRES_PASSWORD: sortir_pass
+      POSTGRES_DB: sortir
+    volumes:
+      - sortir_db_data:/var/lib/postgresql/data
+    networks:
+      - web
+    ports:
+      - "5434:5432"
+
+  sortir-app:
+    build: .
+    container_name: sortir_app
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html:delegated
+      - sortir_var:/var/www/html/var
+    environment:
+      - DATABASE_URL=postgresql://sortir:sortir_pass@sortir-db:5432/sortir
+    depends_on:
+      - sortir-db
+    networks:
+      - web
+
+volumes:
+  sortir_db_data:
+  sortir_var:
+
+networks:
+    web:
+        external: true
