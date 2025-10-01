@@ -72,10 +72,10 @@ http://127.0.0.1:8000
 ```
 
 ## ✅ Exemple de compte pour tester
-**Admin**
+**Admin** : \
 Email : admin@test.fr\
 Mot de passe : azerty\
-**Utilisateur classique**\
+**Utilisateur classique** : \
 Email : mwacheux@test.fr\
 Mot de passe : azerty\
 Email : zozo@test.fr\
