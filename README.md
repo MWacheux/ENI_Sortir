@@ -66,10 +66,11 @@ Sorties : diverses sorties avec différents états (Ouverte, Passée, Archivée,
 symfony serve
 ```
 
-## Accéder à l’application :
-```
-http://127.0.0.1:8000
-```
+## Accéder à l’application
+
+- En local (développement) : http://127.0.0.1:8000  
+- En production : https://sortir.patateparty.fr
+
 
 ## ✅ Exemple de compte pour tester
 **Admin** : \
