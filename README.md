@@ -77,6 +77,6 @@ Email : admin@test.fr\
 Mot de passe : azerty\
 **Utilisateur classique**\
 Email : mwacheux@test.fr\
-Mot de passe : azerty
+Mot de passe : azerty\
 Email : zozo@test.fr\
 Mot de passe : @Monchatminette44800
