@@ -59,7 +59,7 @@ class SortieType extends AbstractType
             ])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
-                'choice_label' => fn(Lieu $lieu) => $lieu->getNom().' ('.$lieu->getVille()->getNom().')',
+                'choice_label' => fn (Lieu $lieu) => $lieu->getNom().' ('.$lieu->getVille()->getNom().')',
                 'placeholder' => '<Nouveau lieu>',
                 'required' => false,
                 'attr' => [

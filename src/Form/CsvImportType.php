@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CsvImportType extends AbstractType
@@ -16,16 +15,16 @@ class CsvImportType extends AbstractType
         $builder
             ->add('submitFile', FileType::class, [
                 'attr' => [
-                    'class' => "form-control",
-                    'accept' => '.csv'
+                    'class' => 'form-control',
+                    'accept' => '.csv',
                 ],
-                'label' => null
+                'label' => null,
             ])
             ->add('button', SubmitType::class, [
                 'attr' => [
-                    'class' => "btn btn-primary"
+                    'class' => 'btn btn-primary',
                 ],
-                'label' => 'Importer'
+                'label' => 'Importer',
             ]);
     }
 

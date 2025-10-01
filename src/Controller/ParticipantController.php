@@ -7,9 +7,7 @@ use App\Form\CsvImportType;
 use App\Form\ProfilType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpParser\Node\Expr\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -131,7 +129,6 @@ final class ParticipantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
             $participants = $serializer->decode(file_get_contents($form->get('submitFile')->getData()), 'csv');
             foreach ($participants as $row) {
@@ -151,6 +148,7 @@ final class ParticipantController extends AbstractController
                     $this->em->flush();
                 } catch (\Exception $exception) {
                     $this->addFlash('error', "L'utilisateur '".$participant->getPrenom().' '.$participant->getNom()."' contient une erreur");
+
                     return $this->redirectToRoute('app_participant_lister');
                 }
             }
@@ -164,7 +162,7 @@ final class ParticipantController extends AbstractController
 
         return $this->render('utilisateur/lister.html.twig', [
             'utilisateurs' => $utilisateurs,
-            'form' => $form
+            'form' => $form,
         ]);
     }
 

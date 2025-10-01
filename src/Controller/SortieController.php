@@ -147,6 +147,7 @@ final class SortieController extends AbstractController
                         }
                     } else {
                         $this->addFlash('error', 'Le nouveau lieu dois être entièrement complété');
+
                         return $this->render('sortie/ajouter.html.twig', [
                             'sortieform' => $form,
                         ]);
