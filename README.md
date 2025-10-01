@@ -74,7 +74,9 @@ http://127.0.0.1:8000
 ## ✅ Exemple de compte pour tester
 **Admin**
 Email : admin@test.fr\
-Mot de passe : password \
+Mot de passe : azerty\
 **Utilisateur classique**\
 Email : mwacheux@test.fr\
 Mot de passe : azerty
+Email : zozo@test.fr\
+Mot de passe : @Monchatminette44800
