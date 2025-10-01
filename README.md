@@ -25,7 +25,7 @@ symfony console asset-map:compile
 C’est nécessaire pour que les ressources (styles, scripts, images) soient accessibles par le navigateur et que l’application s’affiche correctement.
 
 
-● Créer le fichier .env.dev.local en copiant le .env puis configurer la connexion à la base de donnée
+● Créer le fichier .env.dev.local en copiant le .env puis configurer la connexion à la base de données
 
 ● Créer la base de données
 ```
