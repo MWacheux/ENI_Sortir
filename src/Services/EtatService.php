@@ -48,7 +48,7 @@ class EtatService
             // test si sortie date depuis plus d'un mois
             if ($sortie->getDateHeureDebut()->add(new \DateInterval('PT'.$sortie->getDuree().'M'))->add(new \DateInterval('P1M')) <= $dateNow) {
                 // archive la sortie
-                $workflow->apply($sortie, 'to_activitee_en_cours');
+                $workflow->apply($sortie, 'to_archivee');
             }
         }
         $this->em->persist($sortie);
